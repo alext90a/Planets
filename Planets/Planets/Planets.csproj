@@ -42,6 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ICamera.cs" />
+    <Compile Include="IPlanetProvider.cs" />
+    <Compile Include="ISector.cs" />
+    <Compile Include="ISectorCreator.cs" />
+    <Compile Include="ICameraListener.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sector.cs" />
