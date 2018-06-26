@@ -10,8 +10,8 @@ namespace Planets
     {
         static void Main(string[] args)
         {
-            var segment01 = new Segment();
-            var subSeg = segment01.cellStore[9999];
+            var segment01 = new Segment(new SectorCreator());
+            //var subSeg = segment01.cellStore[9999];
         }
     }
 }

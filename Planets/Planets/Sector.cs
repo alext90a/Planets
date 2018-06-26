@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Planets
 {
-    public struct Sector
+    public class Sector : ISector
     {
 
         public void Init()
@@ -20,14 +20,21 @@ namespace Planets
                 do
                 {
                     generatedPosition = GeneratePosition();
-                }
-                while (allPositions.Contains(generatedPosition));
+                } while (allPositions.Contains(generatedPosition));
                 var rating = mRandomGenerator.Next(mMinPlanetScore, mMaxPlanetScore);
+                
                 allPositions.Add(generatedPosition);
+                
                 listRatings.Add(rating * mSectorSize * mSectorSize + generatedPosition);
+                if (rating == 10000)
+                {
+                    Segment.totalBig += 1;
+                    Segment.bigs.Add(rating * mSectorSize * mSectorSize + generatedPosition);
+                }
             }
-            listRatings.Sort();
+            listRatings.Sort(Compare);
             mByRating = listRatings.ToArray();
+            //mByRating[0] = 100009999;
         }
 
         private int GeneratePosition()
@@ -35,9 +42,35 @@ namespace Planets
             return mRandomGenerator.Next(0, cellsInSector);
         }
 
+        public static int Compare(int x, int y)
+        {
+            if (x > y)
+            {
+                return -1;
+            }
+            else
+            {
+                return 1;
+            }
+        }
 
-        //public Planet[] mPlanetStore;
+    //public Planet[] mPlanetStore;
         public int[] mByRating;
+
+        public int GetPlanet(int index)
+        {
+            return mByRating[index];
+        }
+
+        public int GetPlanetRating(int index)
+        {
+            return mByRating[index] / cellsInSector;
+        }
+
+        public int PlanetsInSector
+        {
+            get { return planetsInSector; }
+        }
 
         public int GetX { get; set; }
         public int GetY { get; set; }
