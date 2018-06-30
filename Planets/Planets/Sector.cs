@@ -8,38 +8,46 @@ namespace Planets
 {
     public class Sector : ISector
     {
+        private readonly IConstants mConstants;
+        private readonly IComparer<int> mPlanetComparer;
+
+        public Sector(IConstants constants, IComparer<int> planetComparer)
+        {
+            mConstants = constants;
+            mPlanetComparer = planetComparer;
+        }
 
         public void Init()
         {
-            mByRating = new int[planetsInSector];
+            mByRating = new int[mConstants.PlanetsInSector];
             var allPositions = new HashSet<int>();
-            var listRatings = new List<int>(planetsInSector);
-            for (int i = 0; i < planetsInSector; ++i)
+            var listRatings = new List<int>(mConstants.PlanetsInSector);
+            for (int i = 0; i < mConstants.PlanetsInSector; ++i)
             {
                 int generatedPosition;
                 do
                 {
                     generatedPosition = GeneratePosition();
                 } while (allPositions.Contains(generatedPosition));
-                var rating = mRandomGenerator.Next(mMinPlanetScore, mMaxPlanetScore+1);
+                var rating = mRandomGenerator.Next(mConstants.MinPlanetScore, mConstants.MaxPlanetScore+1);
                 
                 allPositions.Add(generatedPosition);
                 
-                listRatings.Add(rating * mSectorSize * mSectorSize + generatedPosition);
+                listRatings.Add(rating * mConstants.CellsInSector + generatedPosition);
                 if (rating == 10000)
                 {
                     Segment.totalBig += 1;
-                    Segment.bigs.Add(rating * mSectorSize * mSectorSize + generatedPosition);
+                    Segment.bigs.Add(rating * mConstants.CellsInSector + generatedPosition);
                 }
             }
-            listRatings.Sort(Compare);
+            listRatings.Sort(mPlanetComparer);
             mByRating = listRatings.ToArray();
             //mByRating[0] = 100009999;
         }
 
         private int GeneratePosition()
         {
-            return mRandomGenerator.Next(0, cellsInSector);
+            return mRandomGenerator.Next(0, mConstants.CellsInSector);
         }
 
         public static int Compare(int x, int y)
@@ -53,6 +61,7 @@ namespace Planets
                 return 1;
             }
         }
+        
 
     //public Planet[] mPlanetStore;
         public int[] mByRating;
@@ -64,29 +73,14 @@ namespace Planets
 
         public int GetPlanetRating(int index)
         {
-            return mByRating[index] / cellsInSector;
+            return mByRating[index] / mConstants.CellsInSector;
         }
 
-        public int PlanetsInSector
-        {
-            get { return planetsInSector; }
-        }
 
-        public int SectorSize
-        {
-            get { return mSectorSize; }
-        }
+        
 
         public int GetX { get; set; }
         public int GetY { get; set; }
-        //public int[] mByPositions;
-
-
-        private const int planetsInSector = (int)(mSectorSize * mSectorSize * .3f);
-        private const int cellsInSector = mSectorSize * mSectorSize;
-        private const int mMinPlanetScore = 0;
-        public const int mMaxPlanetScore = 10000;
-        public const int mSectorSize = 100;
 
         private static Random mRandomGenerator = new Random();
     }

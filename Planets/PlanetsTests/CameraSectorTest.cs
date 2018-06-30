@@ -15,7 +15,7 @@ namespace PlanetsTests
         [Test]
         public void CameraInsideSectorTest()
         {
-            var segment = new Segment(Mock.Of<ISectorCreator>());
+            var segment = new Segment(Mock.Of<ISectorCreator>(), new Constants());
             var camera = new Mock<ICamera>();
             camera.Setup(c => c.Top).Returns(155);
             camera.Setup(c => c.Bottom).Returns(145);
@@ -30,7 +30,7 @@ namespace PlanetsTests
         [Test]
         public void SectorInsideCameraTest()
         {
-            var segment = new Segment(Mock.Of<ISectorCreator>());
+            var segment = new Segment(Mock.Of<ISectorCreator>(), new Constants());
             var camera = new Mock<ICamera>();
             camera.Setup(c => c.Top).Returns(300);
             camera.Setup(c => c.Bottom).Returns(0);
@@ -45,7 +45,7 @@ namespace PlanetsTests
         [Test]
         public void SectorIntersectCameraTest()
         {
-            var segment = new Segment(Mock.Of<ISectorCreator>());
+            var segment = new Segment(Mock.Of<ISectorCreator>(), new Constants());
             var camera = new Mock<ICamera>();
             camera.Setup(c => c.Top).Returns(300);
             camera.Setup(c => c.Bottom).Returns(150);
@@ -62,7 +62,7 @@ namespace PlanetsTests
         {
             float data1 = 49.9f;
             int data2 = (int)data1;
-            var segment = new Segment(Mock.Of<ISectorCreator>());
+            var segment = new Segment(Mock.Of<ISectorCreator>(), new Constants());
             var camera = new Mock<ICamera>();
             camera.Setup(c => c.Top).Returns(299);
             camera.Setup(c => c.Bottom).Returns(200);

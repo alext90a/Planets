@@ -1,16 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Planets
 {
     public class SectorCreator : ISectorCreator
     {
+        private readonly IConstants mConstants;
+        private readonly IComparer<int> mComparer;
+
+        public SectorCreator(IConstants constants, IComparer<int> comparer)
+        {
+            mConstants = constants;
+            mComparer = comparer;
+        }
+
         public ISector CreateSector(int x, int y)
         {
-            var sector = new Sector();
+            var sector = new Sector(mConstants, mComparer);
             sector.Init();
 
             sector.GetY = x;

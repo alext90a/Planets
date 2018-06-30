@@ -9,11 +9,24 @@ namespace Planets
 {
     public class Segment
     {
-        private ISectorCreator mSectorCreator;
-        public Segment(ISectorCreator sectorCreator)
+        private readonly ISectorCreator mSectorCreator;
+        
+
+        public ISector[] cellStore;
+        //const int totalSize = 10000;
+
+        private const int renderAmount = 10;
+
+        private ICamera mCamera = new Camera();
+        private readonly IConstants mConstants;
+        public static int totalBig = 0;
+        public static List<int> bigs = new List<int>(10000);
+
+        public Segment(ISectorCreator sectorCreator, IConstants constants)
         {
             mSectorCreator = sectorCreator;
-
+            mConstants = constants;
+            cellStore = new ISector[mConstants.SectorsInSegment];
             
         }
 
@@ -21,10 +34,10 @@ namespace Planets
         {
             var watcher1 = new Stopwatch();
             watcher1.Start();
-            for (int i = 0; i < totalSize; ++i)
+            for (int i = 0; i < mConstants.SectorsInSegment; ++i)
             {
-                var y = i / Sector.mSectorSize;
-                var x = i - y * Sector.mSectorSize;
+                var y = i / mConstants.SectorSideSize;
+                var x = i - y * mConstants.SectorSideSize;
                 cellStore[i] = mSectorCreator.CreateSector(x, y);
             }
             watcher1.Stop();
@@ -57,7 +70,7 @@ namespace Planets
                 var inspectedSector = cellStore[i];
                 int posToInsert = -1;
 
-                for (int k = 0; k < inspectedSector.PlanetsInSector; ++k)
+                for (int k = 0; k < mConstants.PlanetsInSector; ++k)
                 {
                     if (!IsPlanetInCamera(mCamera, inspectedSector.GetPlanet(k), inspectedSector.GetX,
                         inspectedSector.GetY))
@@ -90,9 +103,9 @@ namespace Planets
 
         private bool IsPlanetInCamera(ICamera camera, int planetData, int sectorX, int sectorY)
         {
-            int planetCoord = planetData % Sector.mMaxPlanetScore;
-            int planetX = planetCoord % 100 + sectorX * Sector.mSectorSize;
-            int planetY = planetCoord / 100 + sectorY * Sector.mSectorSize;
+            int planetCoord = planetData % mConstants.MaxPlanetScore;
+            int planetX = planetCoord % 100 + sectorX * mConstants.SectorSideSize;
+            int planetY = planetCoord / 100 + sectorY * mConstants.SectorSideSize;
 
             if ((camera.Top >= planetY && camera.Bottom <= planetY) &&
                 (camera.Left <= planetX && camera.Right >= planetX))
@@ -105,10 +118,10 @@ namespace Planets
 
         public bool IsCameraInercectSector(ICamera camera, int sectorIndX, int sectorIndY)
         {
-            int sectorLeft = sectorIndX * Sector.mSectorSize;
-            int sectorRight = sectorLeft + Sector.mSectorSize - 1;
-            int sectorBottom = sectorIndY * Sector.mSectorSize;
-            int sectorTop = sectorBottom + Sector.mSectorSize -1;
+            int sectorLeft = sectorIndX * mConstants.SectorSideSize;
+            int sectorRight = sectorLeft + mConstants.SectorSideSize - 1;
+            int sectorBottom = sectorIndY * mConstants.SectorSideSize;
+            int sectorTop = sectorBottom + mConstants.SectorSideSize - 1;
 
             
             float cameraX = camera.Left + (camera.Right - camera.Left) / 2f;
@@ -116,8 +129,8 @@ namespace Planets
             float sectorX = sectorLeft + (sectorRight - sectorLeft) / 2f;
             float sectorY = sectorBottom + (sectorTop - sectorBottom) / 2f;
 
-            float sectorWidth = Sector.mSectorSize;
-            float sectorHeight = Sector.mSectorSize;
+            float sectorWidth = mConstants.SectorSideSize;
+            float sectorHeight = mConstants.SectorSideSize;
             float cameraWidth = camera.Right - camera.Left + 1;
             float cameraHeight = camera.Top - camera.Bottom + 1;
 
@@ -127,10 +140,10 @@ namespace Planets
 
         private bool IsCameraInsideSector(ICamera camera, int sectorX, int sectorY)
         {
-            int sectorLeft = sectorX * Sector.mSectorSize;
-            int sectorRight = sectorLeft + Sector.mSectorSize;
-            int sectorBottom = sectorY * Sector.mSectorSize;
-            int sectorTop = sectorBottom + Sector.mSectorSize;
+            int sectorLeft = sectorX * mConstants.SectorSideSize;
+            int sectorRight = sectorLeft + mConstants.SectorSideSize;
+            int sectorBottom = sectorY * mConstants.SectorSideSize;
+            int sectorTop = sectorBottom + mConstants.SectorSideSize;
 
             //cameraInsideSector
             if ((camera.Top <= sectorTop || camera.Bottom >= sectorBottom) &&
@@ -143,10 +156,10 @@ namespace Planets
 
         private bool IsSectorInsideCamera(ICamera camera, int sectorX, int sectorY)
         {
-            int sectorLeft = sectorX * Sector.mSectorSize;
-            int sectorRight = sectorLeft + Sector.mSectorSize;
-            int sectorBottom = sectorY * Sector.mSectorSize;
-            int sectorTop = sectorBottom + Sector.mSectorSize;
+            int sectorLeft = sectorX * mConstants.SectorSideSize;
+            int sectorRight = sectorLeft + mConstants.SectorSideSize;
+            int sectorBottom = sectorY * mConstants.SectorSideSize;
+            int sectorTop = sectorBottom + mConstants.SectorSideSize;
 
             //cameraInsideSector
             if ((camera.Top <= sectorTop || camera.Bottom >= sectorBottom) &&
@@ -156,15 +169,6 @@ namespace Planets
             }
             return false;
         }
-        public ISector[] cellStore = new ISector[totalSize];
-        //const int totalSize = 10000;
-        const int totalSize = 1;
-
-        private const int renderAmount = 10;
-
-        private ICamera mCamera = new Camera();
-
-        public static int totalBig = 0;
-        public static List<int> bigs = new List<int>(10000);
+        
     }
 }
