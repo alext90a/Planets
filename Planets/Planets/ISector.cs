@@ -12,6 +12,7 @@ namespace Planets
         int GetX { get; }
         int GetY { get; }
         int PlanetsInSector { get; }
+        int SectorSize { get; }
         int GetPlanetRating(int index);
     }
 }

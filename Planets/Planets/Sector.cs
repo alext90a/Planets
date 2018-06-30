@@ -21,7 +21,7 @@ namespace Planets
                 {
                     generatedPosition = GeneratePosition();
                 } while (allPositions.Contains(generatedPosition));
-                var rating = mRandomGenerator.Next(mMinPlanetScore, mMaxPlanetScore);
+                var rating = mRandomGenerator.Next(mMinPlanetScore, mMaxPlanetScore+1);
                 
                 allPositions.Add(generatedPosition);
                 
@@ -72,6 +72,11 @@ namespace Planets
             get { return planetsInSector; }
         }
 
+        public int SectorSize
+        {
+            get { return mSectorSize; }
+        }
+
         public int GetX { get; set; }
         public int GetY { get; set; }
         //public int[] mByPositions;
@@ -80,8 +85,8 @@ namespace Planets
         private const int planetsInSector = (int)(mSectorSize * mSectorSize * .3f);
         private const int cellsInSector = mSectorSize * mSectorSize;
         private const int mMinPlanetScore = 0;
-        private const int mMaxPlanetScore = 10001;
-        private const int mSectorSize = 100;
+        public const int mMaxPlanetScore = 10000;
+        public const int mSectorSize = 100;
 
         private static Random mRandomGenerator = new Random();
     }
