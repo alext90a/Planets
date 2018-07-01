@@ -8,9 +8,11 @@ namespace Planets
         int Left { get; }
         int Bottom { get; }
         int Right { get; }
-        void SetPosX(int x);
-        void SetPosY(int y);
-        void SetZoom(int zoom);
+        void IncreaseZoom();
+        void DecreaseZoom();
+        int GetMaxZoom();
+        int GetMinZoom();
         int GetZoom();
+        void AddListener(ICameraListener listener);
     }
 }

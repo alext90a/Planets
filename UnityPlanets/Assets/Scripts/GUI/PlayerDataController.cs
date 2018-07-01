@@ -11,13 +11,13 @@ public class PlayerDataController : MonoBehaviour, IPlayerListener
     [SerializeField] private Text mTextX;
     [SerializeField] private Text mTextY;
     [SerializeField] private Text mScore;
-    [SerializeField] private Text mZoomText;
-    [SerializeField] private Text mZoomText2;
+    
 
     [Inject] private readonly IPlayer mPlayer;
 	// Use this for initialization
 	void Start () {
 		mPlayer.AddListener(this);
+	    mScore.text = mPlayer.Score.ToString();
 	}
 	
 	// Update is called once per frame

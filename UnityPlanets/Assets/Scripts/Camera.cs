@@ -1,5 +1,6 @@
 ﻿using System;
 using Assets.Scripts;
+using Boo.Lang;
 
 namespace Planets
 {
@@ -8,11 +9,15 @@ namespace Planets
         private int mX;
         private int mY;
         private float mScale = 1f;
+        private List<int> mZoomValues = new List<int>(){5, 10, 100, 1000, 10000};
+        private int mZoomInd = 0;
 
         private int mTop;
         private int mBottom;
         private int mLeft;
         private int mRight;
+
+        private List<ICameraListener> mListeners = new List<ICameraListener>();
 
         public Camera()
         {
@@ -29,24 +34,55 @@ namespace Planets
         public int Left { get { return mLeft; } }
         public int Bottom { get { return mBottom; } }
         public int Right { get { return mRight; } }
-        public void SetPosX(int x)
+        public void IncreaseZoom()
         {
-            throw new NotImplementedException();
+            ++mZoomInd;
+            if (mZoomInd >= mZoomValues.Count)
+            {
+                mZoomInd = mZoomValues.Count - 1;
+                return;
+            }
+            UpdateListeners();
         }
 
-        public void SetPosY(int y)
+        public void DecreaseZoom()
         {
-            throw new NotImplementedException();
+            --mZoomInd;
+            if (mZoomInd < 0)
+            {
+                mZoomInd = 0;
+                return;
+            }
+            UpdateListeners();
         }
 
-        public void SetZoom(int zoom)
+        public int GetMaxZoom()
         {
-            throw new NotImplementedException();
+            return mZoomValues[mZoomValues.Count - 1];
+        }
+
+        public int GetMinZoom()
+        {
+            return mZoomValues[0];
+        }
+
+        private void UpdateListeners()
+        {
+            int zoomValue = mZoomValues[mZoomInd];
+            for (int i = 0; i < mListeners.Count; ++i)
+            {
+                mListeners[i].ZoomValueChanged(zoomValue);
+            }
         }
 
         public int GetZoom()
         {
-            throw new NotImplementedException();
+            return mZoomValues[mZoomInd];
+        }
+
+        public void AddListener(ICameraListener listener)
+        {
+            mListeners.Add(listener);
         }
 
 
