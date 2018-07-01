@@ -1,0 +1,6 @@
+﻿namespace Planets
+{
+    interface ICameraListener
+    {
+    }
+}
