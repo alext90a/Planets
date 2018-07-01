@@ -12,6 +12,7 @@ public class CameraController : MonoBehaviour, ICameraListener {
     [SerializeField] private Slider mSlider;
     [SerializeField] private Button mIncreaseButton;
     [SerializeField] private Button mDecreaseButton;
+    
 
     [Inject] private readonly ICamera mCamera;
 
@@ -35,6 +36,8 @@ public class CameraController : MonoBehaviour, ICameraListener {
         mZoomText.text = zoomValue.ToString();
         mZoomText2.text = zoomValue.ToString();
         mSlider.value = zoomValue;
+
+        
     }
 
     private void IncreaseZoom()

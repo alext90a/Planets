@@ -14,5 +14,6 @@ namespace Planets
         int GetMinZoom();
         int GetZoom();
         void AddListener(ICameraListener listener);
+        void AddBorderChangeListener(IBordersChangeListener listener);
     }
 }

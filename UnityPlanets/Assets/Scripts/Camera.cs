@@ -17,7 +17,11 @@ namespace Planets
         private int mLeft;
         private int mRight;
 
+        private int mPlayerX;
+        private int mPlayerY;
+
         private List<ICameraListener> mListeners = new List<ICameraListener>();
+        private List<IBordersChangeListener> mBorderListeners = new List<IBordersChangeListener>();
 
         public Camera()
         {
@@ -42,7 +46,9 @@ namespace Planets
                 mZoomInd = mZoomValues.Count - 1;
                 return;
             }
+
             UpdateListeners();
+            UpdatePositions();
         }
 
         public void DecreaseZoom()
@@ -54,6 +60,15 @@ namespace Planets
                 return;
             }
             UpdateListeners();
+            UpdatePositions();
+        }
+        private void UpdateListeners()
+        {
+            int zoomValue = mZoomValues[mZoomInd];
+            for (int i = 0; i < mListeners.Count; ++i)
+            {
+                mListeners[i].ZoomValueChanged(zoomValue);
+            }
         }
 
         public int GetMaxZoom()
@@ -66,14 +81,7 @@ namespace Planets
             return mZoomValues[0];
         }
 
-        private void UpdateListeners()
-        {
-            int zoomValue = mZoomValues[mZoomInd];
-            for (int i = 0; i < mListeners.Count; ++i)
-            {
-                mListeners[i].ZoomValueChanged(zoomValue);
-            }
-        }
+        
 
         public int GetZoom()
         {
@@ -85,10 +93,43 @@ namespace Planets
             mListeners.Add(listener);
         }
 
+        public void AddBorderChangeListener(IBordersChangeListener listener)
+        {
+            mBorderListeners.Add(listener);
+        }
+
 
         public void PositionCanged(int posX, int posY)
         {
+            mPlayerX = posX;
+            mPlayerY = posY;
+
+            UpdatePositions();
             
+        }
+
+        private void UpdatePositions()
+        {
+            var halfWidth = GetZoom() / 2;
+            if (GetZoom() % 2 == 0)
+            {
+                mTop = mPlayerY + halfWidth;
+                mBottom = mPlayerY - halfWidth + 1;
+                mLeft = mPlayerX - halfWidth + 1;
+                mRight = mPlayerX + halfWidth;
+            }
+            else
+            {
+                mTop = mPlayerY + halfWidth;
+                mBottom = mPlayerY - halfWidth;
+                mLeft = mPlayerX - halfWidth;
+                mRight = mPlayerX + halfWidth;
+            }
+
+            for (int i = 0; i < mBorderListeners.Count; ++i)
+            {
+                mBorderListeners[i].NewBorders(mTop, mBottom, mLeft, mRight);
+            }
         }
     }
 }
