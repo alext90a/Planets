@@ -306,6 +306,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Camera.cs" />
     <Compile Include="Assets\Scripts\Constants.cs" />
+    <Compile Include="Assets\Scripts\GUI\PlayerDataController.cs" />
     <Compile Include="Assets\Scripts\ICamera.cs" />
     <Compile Include="Assets\Scripts\ICameraListener.cs" />
     <Compile Include="Assets\Scripts\IConstants.cs" />
