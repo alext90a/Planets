@@ -11,6 +11,7 @@
         private int mPlanetsInSector;
         private int mMaxPlanetScore;
         private int mMinPlanetScore;
+        private int mPlanetsToVisualize;
 
         public Constants()
         {
@@ -23,6 +24,7 @@
             mPlanetsInSector = (int)(mCellsInSector * mPlanetsPercent);
             mMaxPlanetScore = 10000;
             mMinPlanetScore = 0;
+            mPlanetsToVisualize = 20;
         }
         public int SectorsInSegment { get { return mSectorsInSegment; } }
         public int PlanetsInSector { get { return mPlanetsInSector; } }
@@ -33,5 +35,6 @@
         public int MinCameraSize { get { return mMinCameraSize; } }
         public int MaxPlanetScore { get { return mMaxPlanetScore; } }
         public int MinPlanetScore { get { return mMinPlanetScore; }}
+        public int PlanetsToVisualize { get { return mPlanetsToVisualize; } }
     }
 }

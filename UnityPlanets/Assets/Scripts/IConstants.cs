@@ -11,5 +11,6 @@
         int MinCameraSize { get; }
         int MaxPlanetScore { get; }
         int MinPlanetScore { get; }
+        int PlanetsToVisualize { get; }
     }
 }

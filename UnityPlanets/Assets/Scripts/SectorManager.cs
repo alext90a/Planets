@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Assets.Scripts;
 
 namespace Planets
 {
-    public class Segment
+    public class SectorManager : ISectorManager
     {
         private readonly ISectorCreator mSectorCreator;
         
@@ -14,15 +15,16 @@ namespace Planets
 
         private const int renderAmount = 10;
 
-        private ICamera mCamera = new Camera();
+        private ICamera mCamera;
         private readonly IConstants mConstants;
         public static int totalBig = 0;
         public static List<int> bigs = new List<int>(10000);
 
-        public Segment(ISectorCreator sectorCreator, IConstants constants)
+        public SectorManager(ISectorCreator sectorCreator, IConstants constants, ICamera camera)
         {
             mSectorCreator = sectorCreator;
             mConstants = constants;
+            mCamera = camera;
             cellStore = new ISector[mConstants.SectorsInSegment];
             
         }
@@ -41,14 +43,15 @@ namespace Planets
 
             var watcher = new Stopwatch();
             watcher.Start();
-            FindRenderPlanets();
+            //FindRenderPlanets();
             watcher.Stop();
         }
 
-        private void FindRenderPlanets()
+        public void GetVisiblePlanets(List<PlanetData> planets)
         {
-            int[] best = new int[renderAmount];
-            int[] bestSectors = new int[renderAmount];
+            planets.Clear();
+            //sectors.Clear();
+
             var startSector = cellStore[0];
             for (int i = 0; i < renderAmount; ++i)
             {
@@ -58,8 +61,9 @@ namespace Planets
                     continue;
                 }
 
-                best[i] = startSector.GetPlanet(i);
-                bestSectors[i] = 0;
+                
+                planets.Add(GetPlanetData(startSector.GetX, startSector.GetY, startSector.GetPlanet(i)));
+                //sectors.Add(0);
             }
 
             for (int i = 1; i < cellStore.Length; ++i)
@@ -78,7 +82,7 @@ namespace Planets
                     for (int j = renderAmount-1; j > -1; --j)
                     {
                         
-                        if (best[j] < inspectedSector.GetPlanet(k))
+                        if (planets[j].Score < inspectedSector.GetPlanetRating(k))
                         {
                             posToInsert = j;
                             continue;
@@ -87,8 +91,8 @@ namespace Planets
                     }
                     if (posToInsert != -1)
                     {
-                        best[posToInsert] = inspectedSector.GetPlanet(k);
-                        bestSectors[posToInsert] = i;
+                        planets[posToInsert] = new PlanetData(inspectedSector.GetX, inspectedSector.GetY, inspectedSector.GetPlanetRating(k));
+                        //sectors[posToInsert] = i;
                         posToInsert = -1;
                         continue;
                     }
@@ -96,6 +100,14 @@ namespace Planets
                 }
             }
             bigs.Sort(Sector.Compare);
+        }
+
+        private PlanetData GetPlanetData(int sectorX, int sectorY, int planet)
+        {
+            int planetCoord = planet % mConstants.MaxPlanetScore;
+            int planetX = planetCoord % 100 + sectorX * mConstants.SectorSideSize;
+            int planetY = planetCoord / 100 + sectorY * mConstants.SectorSideSize;
+            return new PlanetData(planetX, planetY, planet / mConstants.CellsInSector);
         }
 
         private bool IsPlanetInCamera(ICamera camera, int planetData, int sectorX, int sectorY)

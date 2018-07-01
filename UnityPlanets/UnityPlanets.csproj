@@ -319,15 +319,19 @@
     <Compile Include="Assets\Scripts\IPlayerListener.cs" />
     <Compile Include="Assets\Scripts\ISector.cs" />
     <Compile Include="Assets\Scripts\ISectorCreator.cs" />
+    <Compile Include="Assets\Scripts\ISectorManager.cs" />
     <Compile Include="Assets\Scripts\IUnityPlayer.cs" />
+    <Compile Include="Assets\Scripts\IUnityVisualizer.cs" />
     <Compile Include="Assets\Scripts\PlanetComparer.cs" />
+    <Compile Include="Assets\Scripts\PlanetData.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
-    <Compile Include="Assets\Scripts\Program.cs" />
     <Compile Include="Assets\Scripts\ProjectInstaller.cs" />
     <Compile Include="Assets\Scripts\Sector.cs" />
     <Compile Include="Assets\Scripts\SectorCreator.cs" />
-    <Compile Include="Assets\Scripts\Segment.cs" />
+    <Compile Include="Assets\Scripts\SectorManager.cs" />
+    <Compile Include="Assets\Scripts\UnityPlanetVisualizer.cs" />
     <Compile Include="Assets\Scripts\UnityPlayer.cs" />
+    <Compile Include="Assets\Scripts\UnitySectorManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Plugins\Zenject\LICENSE.txt" />
