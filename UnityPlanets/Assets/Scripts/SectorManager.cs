@@ -10,35 +10,51 @@ namespace Planets
         private readonly ISectorCreator mSectorCreator;
         
 
-        public ISector[] cellStore;
+        public ISector[] mCellStore;
         //const int totalSize = 10000;
-
-        private const int renderAmount = 10;
+        
 
         private ICamera mCamera;
         private readonly IConstants mConstants;
-        public static int totalBig = 0;
-        public static List<int> bigs = new List<int>(10000);
+        public static int mTotalBig = 0;
+        public static List<int> mBigs = new List<int>(10000);
 
         public SectorManager(ISectorCreator sectorCreator, IConstants constants, ICamera camera)
         {
             mSectorCreator = sectorCreator;
             mConstants = constants;
             mCamera = camera;
-            cellStore = new ISector[mConstants.SectorsInSegment];
-            
+            //mCellStore = new ISector[mConstants.SectorsInSegment];
+            mCellStore = new ISector[16];
         }
 
         public void Init()
         {
             var watcher1 = new Stopwatch();
             watcher1.Start();
-            for (int i = 0; i < mConstants.SectorsInSegment; ++i)
+            int raws = mConstants.MaxCameraSize / mConstants.SectorSideSize;
+            int negativeInd = -raws / 2;
+            int positiveInd = raws / 2;
+            positiveInd = 2;
+            negativeInd = -2;
+            if (positiveInd == negativeInd)
             {
-                var y = i / mConstants.SectorSideSize;
-                var x = i - y * mConstants.SectorSideSize;
-                cellStore[i] = mSectorCreator.CreateSector(x, y);
+                mCellStore[0] = mSectorCreator.CreateSector(-1, -1);
             }
+            else
+            {
+                int i = 0;
+                for (int y = negativeInd; y < positiveInd; ++y)
+                {
+                    for (int x = negativeInd; x < positiveInd; ++x)
+                    {
+                        mCellStore[i] = mSectorCreator.CreateSector(x, y);
+                        ++i;
+                    }
+
+                }
+            }
+            
             watcher1.Stop();
 
             var watcher = new Stopwatch();
@@ -52,8 +68,8 @@ namespace Planets
             planets.Clear();
             //sectors.Clear();
 
-            var startSector = cellStore[0];
-            for (int i = 0; i < renderAmount; ++i)
+            var startSector = mCellStore[0];
+            for (int i = 0; i < mConstants.PlanetsToVisualize; ++i)
             {
                 if (!IsPlanetInCamera(mCamera, startSector.GetPlanet(i), startSector.GetX,
                     startSector.GetY))
@@ -66,9 +82,9 @@ namespace Planets
                 //sectors.Add(0);
             }
 
-            for (int i = 1; i < cellStore.Length; ++i)
+            for (int i = 1; i < mCellStore.Length; ++i)
             {
-                var inspectedSector = cellStore[i];
+                var inspectedSector = mCellStore[i];
                 int posToInsert = -1;
 
                 for (int k = 0; k < mConstants.PlanetsInSector; ++k)
@@ -79,9 +95,14 @@ namespace Planets
                         continue;
                     }
 
-                    for (int j = renderAmount-1; j > -1; --j)
+                    for (int j = mConstants.PlanetsToVisualize-1; j > -1; --j)
                     {
-                        
+
+                        if (j >= planets.Count || j < 0)
+                        {
+                            int adfas = 0;
+                            ++adfas;
+                        }
                         if (planets[j].Score < inspectedSector.GetPlanetRating(k))
                         {
                             posToInsert = j;
@@ -99,7 +120,7 @@ namespace Planets
                     break;
                 }
             }
-            bigs.Sort(Sector.Compare);
+            mBigs.Sort(Sector.Compare);
         }
 
         private PlanetData GetPlanetData(int sectorX, int sectorY, int planet)

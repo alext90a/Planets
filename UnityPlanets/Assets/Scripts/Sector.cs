@@ -33,8 +33,8 @@ namespace Planets
                 listRatings.Add(rating * mConstants.CellsInSector + generatedPosition);
                 if (rating == 10000)
                 {
-                    SectorManager.totalBig += 1;
-                    SectorManager.bigs.Add(rating * mConstants.CellsInSector + generatedPosition);
+                    SectorManager.mTotalBig += 1;
+                    SectorManager.mBigs.Add(rating * mConstants.CellsInSector + generatedPosition);
                 }
             }
             listRatings.Sort(mPlanetComparer);

@@ -19,10 +19,11 @@ public class UnityPlanetVisualizer : MonoBehaviour, IUnityPlanetVisualizer
     {
         var child = transform.GetChild(0).gameObject;
         //child.SetActive(false);
-        mPlanets.Add(child);
-        for (int i = 1; i < mConstants.PlanetsToVisualize; ++i)
+        //mPlanets.Add(child);
+        for (int i = 0; i < mConstants.PlanetsToVisualize; ++i)
         {
             var planet = mPlanetDataFactory.Create().gameObject;
+            planet.transform.parent = transform;
             planet.SetActive(false);
             mPlanets.Add(planet);
 
@@ -52,8 +53,8 @@ public class UnityPlanetVisualizer : MonoBehaviour, IUnityPlanetVisualizer
         {
             mPlanets[i].SetActive(true);
             var oldPos = mPlanets[i].transform.position;
-            oldPos.x = planets[i].X;
-            oldPos.y = planets[i].Y;
+            oldPos.x = planets[i].X +0.5f;
+            oldPos.y = planets[i].Y + 0.5f;
             mPlanets[i].transform.position = oldPos;
         }
     }

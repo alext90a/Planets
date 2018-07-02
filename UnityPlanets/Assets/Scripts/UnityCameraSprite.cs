@@ -16,10 +16,11 @@ public class UnityCameraSprite : MonoBehaviour, ICameraListener
         
         mSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
         mSpriteStartScale = mSpriteRenderer.transform.localScale;
+        mCamera.AddListener(this);
     }
 	// Use this for initialization
 	void Start () {
-	    mCamera.AddListener(this);
+	    
     }
 	
 	// Update is called once per frame
@@ -29,6 +30,11 @@ public class UnityCameraSprite : MonoBehaviour, ICameraListener
 
     public void ZoomValueChanged(int zoomValue)
     {
+        if (name == "Planet01")
+        {
+            int i = 9;
+            ++i;
+        }
         var spriteScale = mSpriteStartScale * (float)zoomValue / (float)mConstants.MinCameraSize;
         mSpriteRenderer.transform.localScale = spriteScale;
     }
