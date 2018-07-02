@@ -330,6 +330,9 @@
     <Compile Include="Assets\Scripts\SectorCreator.cs" />
     <Compile Include="Assets\Scripts\SectorManager.cs" />
     <Compile Include="Assets\Scripts\UnityCamera.cs" />
+    <Compile Include="Assets\Scripts\UnityCameraSprite.cs" />
+    <Compile Include="Assets\Scripts\UnityPlanetData.cs" />
+    <Compile Include="Assets\Scripts\UnityPlanetDataFactory.cs" />
     <Compile Include="Assets\Scripts\UnityPlanetVisualizer.cs" />
     <Compile Include="Assets\Scripts\UnityPlayer.cs" />
     <Compile Include="Assets\Scripts\UnitySectorManager.cs" />

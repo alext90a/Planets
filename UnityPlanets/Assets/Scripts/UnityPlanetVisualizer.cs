@@ -9,19 +9,25 @@ public class UnityPlanetVisualizer : MonoBehaviour, IUnityPlanetVisualizer
 {
 
     [Inject] private readonly IConstants mConstants;
+    [Inject] private readonly ICamera mCamera;
+    [Inject] private readonly UnityPlanetDataFactory mPlanetDataFactory;
+
 
     private List<GameObject> mPlanets = new List<GameObject>();
-
+    
     private void Awake()
     {
         var child = transform.GetChild(0).gameObject;
-        child.SetActive(false);
+        //child.SetActive(false);
         mPlanets.Add(child);
         for (int i = 1; i < mConstants.PlanetsToVisualize; ++i)
         {
-            var planet = Instantiate(child, transform);
+            var planet = mPlanetDataFactory.Create().gameObject;
+            planet.SetActive(false);
             mPlanets.Add(planet);
+
         }
+        child.SetActive(false);
         
     }
 
