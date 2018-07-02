@@ -38,5 +38,14 @@ public class InputManager : MonoBehaviour
 	    {
 	        mPlayer.MoveTop();
 	    }
-	}
+	    if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+	    {
+	        mCamera.IncreaseZoom();
+	    }
+
+	    if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+	    {
+	        mCamera.DecreaseZoom();
+	    }
+    }
 }
