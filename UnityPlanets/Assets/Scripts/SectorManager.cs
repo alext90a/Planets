@@ -7,10 +7,9 @@ namespace Planets
 {
     public class SectorManager : ISectorManager
     {
-        private readonly ISectorCreator mSectorCreator;
-        
 
-        public ISector[] mCellStore;
+        private readonly ISegmentCreator mSegmentCreator;
+        public ISector[] mSectorStore;
         //const int totalSize = 10000;
         
 
@@ -19,42 +18,19 @@ namespace Planets
         public static int mTotalBig = 0;
         public static List<int> mBigs = new List<int>(10000);
 
-        public SectorManager(ISectorCreator sectorCreator, IConstants constants, ICamera camera)
+        public SectorManager(ISegmentCreator segmentCreator, IConstants constants, ICamera camera)
         {
-            mSectorCreator = sectorCreator;
+            mSegmentCreator = segmentCreator;
             mConstants = constants;
             mCamera = camera;
-            //mCellStore = new ISector[mConstants.SectorsInSegment];
-            mCellStore = new ISector[16];
         }
 
         public void Init()
         {
             var watcher1 = new Stopwatch();
             watcher1.Start();
-            int raws = mConstants.MaxCameraSize / mConstants.SectorSideSize;
-            int negativeInd = -raws / 2;
-            int positiveInd = raws / 2;
-            positiveInd = 2;
-            negativeInd = -2;
-            if (positiveInd == negativeInd)
-            {
-                mCellStore[0] = mSectorCreator.CreateSector(-1, -1);
-            }
-            else
-            {
-                int i = 0;
-                for (int y = negativeInd; y < positiveInd; ++y)
-                {
-                    for (int x = negativeInd; x < positiveInd; ++x)
-                    {
-                        mCellStore[i] = mSectorCreator.CreateSector(x, y);
-                        ++i;
-                    }
 
-                }
-            }
-            
+            mSectorStore = mSegmentCreator.CreateSectors();
             watcher1.Stop();
 
             var watcher = new Stopwatch();
@@ -68,7 +44,7 @@ namespace Planets
             planets.Clear();
             //sectors.Clear();
 
-            var startSector = mCellStore[0];
+            var startSector = mSectorStore[0];
             for (int i = 0; i < mConstants.PlanetsToVisualize; ++i)
             {
                 if (!IsPlanetInCamera(mCamera, startSector.GetPlanet(i), startSector.GetX,
@@ -82,9 +58,9 @@ namespace Planets
                 //sectors.Add(0);
             }
 
-            for (int i = 1; i < mCellStore.Length; ++i)
+            for (int i = 1; i < mSectorStore.Length; ++i)
             {
-                var inspectedSector = mCellStore[i];
+                var inspectedSector = mSectorStore[i];
                 int posToInsert = -1;
 
                 for (int k = 0; k < mConstants.PlanetsInSector; ++k)
@@ -95,14 +71,9 @@ namespace Planets
                         continue;
                     }
 
-                    for (int j = mConstants.PlanetsToVisualize-1; j > -1; --j)
+                    for (int j = planets.Count-1; j > -1; --j)
                     {
 
-                        if (j >= planets.Count || j < 0)
-                        {
-                            int adfas = 0;
-                            ++adfas;
-                        }
                         if (planets[j].Score < inspectedSector.GetPlanetRating(k))
                         {
                             posToInsert = j;

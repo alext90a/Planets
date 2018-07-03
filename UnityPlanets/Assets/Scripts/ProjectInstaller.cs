@@ -16,6 +16,7 @@ public class ProjectInstaller : MonoInstaller<ProjectInstaller>
         Container.Bind<IConstants>().To<Planets.Constants>().AsSingle();
         Container.Bind<ISectorManager>().To<SectorManager>().AsSingle();
         Container.Bind<ISectorCreator>().To<SectorCreator>().AsSingle();
+        Container.Bind<ISegmentCreator>().To<SegmentCreator>().AsSingle();
         Container.Bind<IComparer<int>>().To<PlanetComparer>().AsSingle();
         Container.BindFactory<UnityPlanetData, UnityPlanetDataFactory>().FromComponentInNewPrefab(mPlanetDataObject);
 
