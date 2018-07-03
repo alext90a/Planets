@@ -42,11 +42,16 @@ namespace Planets
             planets.Clear();
             //sectors.Clear();
 
+            var cameraTop = mCamera.GetTop();
+            var cameraBottom = mCamera.GetBottom();
+            var cameraLeft = mCamera.GetLeft();
+            var cameraRight = mCamera.GetRight();
+
             var startSector = mSectorStore[0];
             for (int i = 0; i < mConstants.GetPlanetsToVisualize(); ++i)
             {
-                if (!IsPlanetInCamera(mCamera, startSector.GetPlanet(i), startSector.GetX(),
-                    startSector.GetY()))
+                if (!IsPlanetInCamera(startSector.GetPlanet(i), startSector.GetX(),
+                    startSector.GetY(), cameraTop, cameraLeft, cameraBottom, cameraRight))
                 {
                     continue;
                 }
@@ -60,7 +65,7 @@ namespace Planets
             {
                 var inspectedSector = mSectorStore[i];
 
-                if (!IsCameraInercectSector(mCamera, inspectedSector.GetX(), inspectedSector.GetY()))
+                if (!IsCameraInercectSector(inspectedSector.GetX(), inspectedSector.GetY(), cameraTop, cameraBottom, cameraLeft, cameraRight))
                 {
                     continue;
                 }
@@ -69,8 +74,8 @@ namespace Planets
 
                 for (int k = 0; k < mConstants.GetPlanetsInSector(); ++k)
                 {
-                    if (!IsPlanetInCamera(mCamera, inspectedSector.GetPlanet(k), inspectedSector.GetX(),
-                        inspectedSector.GetY()))
+                    if (!IsPlanetInCamera(inspectedSector.GetPlanet(k), inspectedSector.GetX(),
+                        inspectedSector.GetY(), cameraTop, cameraLeft, cameraBottom, cameraRight))
                     {
                         continue;
                     }
@@ -105,14 +110,14 @@ namespace Planets
             return new PlanetData(planetX, planetY, planet / mConstants.GetCellsInSector());
         }
 
-        private bool IsPlanetInCamera(ICamera camera, int planetData, int sectorX, int sectorY)
+        private bool IsPlanetInCamera(int planetData, int sectorX, int sectorY, int cameraTop, int cameraLeft, int cameraBottom, int cameraRight)
         {
             int planetCoord = planetData % 10000;
             int planetX = planetCoord % 100 + sectorX * 100;
             int planetY = planetCoord / 100 + sectorY * 100;
 
-            if ((camera.GetTop() >= planetY && camera.GetBottom() <= planetY) &&
-                (camera.GetLeft() <= planetX && camera.GetRight() >= planetX))
+            if ((cameraTop >= planetY && cameraBottom <= planetY) &&
+                (cameraLeft <= planetX && cameraRight >= planetX))
             {
                 return true;
             }
@@ -120,23 +125,23 @@ namespace Planets
             return false;
         }
 
-        public bool IsCameraInercectSector(ICamera camera, int sectorIndX, int sectorIndY)
+        public bool IsCameraInercectSector(int sectorIndX, int sectorIndY, int cameraTop, int cameraBottom, int cameraLeft, int cameraRight)
         {
-            int sectorLeft = sectorIndX * mConstants.GetSectorSideSize();
-            int sectorRight = sectorLeft + mConstants.GetSectorSideSize() - 1;
-            int sectorBottom = sectorIndY * mConstants.GetSectorSideSize();
-            int sectorTop = sectorBottom + mConstants.GetSectorSideSize() - 1;
+            int sectorLeft = sectorIndX * 100;
+            int sectorRight = sectorLeft + 100 - 1;
+            int sectorBottom = sectorIndY * 100;
+            int sectorTop = sectorBottom + 100 - 1;
 
             
-            float cameraX = camera.GetLeft() + (camera.GetRight() - camera.GetLeft()) / 2f;
-            float cameraY = camera.GetBottom() + (camera.GetTop() - camera.GetBottom()) / 2f;
+            float cameraX = cameraLeft + (cameraRight - cameraLeft) / 2f;
+            float cameraY = cameraBottom + (cameraTop - cameraBottom) / 2f;
             float sectorX = sectorLeft + (sectorRight - sectorLeft) / 2f;
             float sectorY = sectorBottom + (sectorTop - sectorBottom) / 2f;
 
-            float sectorWidth = mConstants.GetSectorSideSize();
-            float sectorHeight = mConstants.GetSectorSideSize();
-            float cameraWidth = camera.GetRight() - camera.GetLeft() + 1;
-            float cameraHeight = camera.GetTop() - camera.GetBottom() + 1;
+            float sectorWidth = 100;
+            float sectorHeight = 100;
+            float cameraWidth = cameraRight - cameraLeft + 1;
+            float cameraHeight = cameraTop - cameraBottom + 1;
 
             return (Math.Abs(sectorX - cameraX) * 2 < (sectorWidth + cameraWidth)) &&
                    (Math.Abs(sectorY - cameraY) * 2 < (sectorHeight + cameraHeight));
