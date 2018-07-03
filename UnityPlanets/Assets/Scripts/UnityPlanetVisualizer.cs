@@ -20,7 +20,7 @@ public class UnityPlanetVisualizer : MonoBehaviour, IUnityPlanetVisualizer
         var child = transform.GetChild(0).gameObject;
         //child.SetActive(false);
         //mPlanets.Add(child);
-        for (int i = 0; i < mConstants.PlanetsToVisualize; ++i)
+        for (int i = 0; i < mConstants.GetPlanetsToVisualize(); ++i)
         {
             var planet = mPlanetDataFactory.Create().gameObject;
             planet.transform.parent = transform;

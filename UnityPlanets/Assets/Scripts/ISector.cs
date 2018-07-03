@@ -3,8 +3,8 @@
     public interface ISector
     {
         int GetPlanet(int index);
-        int GetX { get; }
-        int GetY { get; }
+        int GetX();
+        int GetY();
         int GetPlanetRating(int index);
     }
 }

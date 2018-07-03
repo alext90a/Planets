@@ -2,15 +2,15 @@
 {
     public interface IConstants
     {
-        int SectorsInSegment { get; }
-        int PlanetsInSector { get; }
-        int CellsInSector { get; }
-        int SectorSideSize { get; }
-        float PlanetsPercent { get; }
-        int MaxCameraSize { get; }
-        int MinCameraSize { get; }
-        int MaxPlanetScore { get; }
-        int MinPlanetScore { get; }
-        int PlanetsToVisualize { get; }
+        int GetSectorsInSegment();
+        int GetPlanetsInSector();
+        int GetCellsInSector();
+        int GetSectorSideSize();
+        float GetPlanetsPercent();
+        int GetMaxCameraSize();
+        int GetMinCameraSize();
+        int GetMaxPlanetScore();
+        int GetMinPlanetScore();
+        int GetPlanetsToVisualize();
     }
 }

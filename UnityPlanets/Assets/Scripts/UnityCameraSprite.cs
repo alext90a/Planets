@@ -35,7 +35,7 @@ public class UnityCameraSprite : MonoBehaviour, ICameraListener
             int i = 9;
             ++i;
         }
-        var spriteScale = mSpriteStartScale * (float)zoomValue / (float)mConstants.MinCameraSize;
+        var spriteScale = mSpriteStartScale * (float)zoomValue / (float)mConstants.GetMinCameraSize();
         mSpriteRenderer.transform.localScale = spriteScale;
     }
 }

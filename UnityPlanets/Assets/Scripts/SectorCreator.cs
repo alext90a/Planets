@@ -15,11 +15,9 @@ namespace Planets
 
         public ISector CreateSector(int x, int y)
         {
-            var sector = new Sector(mConstants, mComparer);
+            var sector = new Sector(mConstants, mComparer, x, y);
             sector.Init();
 
-            sector.GetY = x;
-            sector.GetX = y;
             return sector;
         }
     }

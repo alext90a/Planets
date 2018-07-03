@@ -18,7 +18,7 @@ public class UnitySectorManager : MonoBehaviour, IBordersChangeListener
 
     void Awake()
     {
-        mPlanets = new List<PlanetData>(mConstants.PlanetsToVisualize);
+        mPlanets = new List<PlanetData>(mConstants.GetPlanetsToVisualize());
     }
 
 	// Use this for initialization

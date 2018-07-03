@@ -4,10 +4,10 @@ namespace Planets
 {
     public interface ICamera : IPlayerListener
     {
-        int Top { get; }
-        int Left { get; }
-        int Bottom { get; }
-        int Right { get; }
+        int GetTop();
+        int GetLeft();
+        int GetBottom();
+        int GetRight();
         void IncreaseZoom();
         void DecreaseZoom();
         int GetMaxZoom();

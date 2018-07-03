@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Boo.Lang.Environments;
 
 namespace Planets
 {
@@ -7,35 +8,34 @@ namespace Planets
     {
         private readonly IConstants mConstants;
         private readonly IComparer<int> mPlanetComparer;
+        private readonly int mX;
+        private readonly int mY;
 
-        public Sector(IConstants constants, IComparer<int> planetComparer)
+        public Sector(IConstants constants, IComparer<int> planetComparer, int x, int y)
         {
             mConstants = constants;
             mPlanetComparer = planetComparer;
+            mX = x;
+            mY = y;
         }
 
         public void Init()
         {
-            mByRating = new int[mConstants.PlanetsInSector];
+            mByRating = new int[mConstants.GetPlanetsInSector()];
             var allPositions = new HashSet<int>();
-            var listRatings = new List<int>(mConstants.PlanetsInSector);
-            for (int i = 0; i < mConstants.PlanetsInSector; ++i)
+            var listRatings = new List<int>(mConstants.GetPlanetsInSector());
+            for (int i = 0; i < mConstants.GetPlanetsInSector(); ++i)
             {
                 int generatedPosition;
                 do
                 {
                     generatedPosition = GeneratePosition();
                 } while (allPositions.Contains(generatedPosition));
-                var rating = mRandomGenerator.Next(mConstants.MinPlanetScore, mConstants.MaxPlanetScore+1);
-                
+                var rating = mRandomGenerator.Next(mConstants.GetMinPlanetScore(), mConstants.GetMaxPlanetScore() + 1);
+
                 allPositions.Add(generatedPosition);
-                
-                listRatings.Add(rating * mConstants.CellsInSector + generatedPosition);
-                if (rating == 10000)
-                {
-                    SectorManager.mTotalBig += 1;
-                    SectorManager.mBigs.Add(rating * mConstants.CellsInSector + generatedPosition);
-                }
+
+                listRatings.Add(rating * mConstants.GetCellsInSector() + generatedPosition);
             }
             listRatings.Sort(mPlanetComparer);
             mByRating = listRatings.ToArray();
@@ -44,7 +44,7 @@ namespace Planets
 
         private int GeneratePosition()
         {
-            return mRandomGenerator.Next(0, mConstants.CellsInSector);
+            return mRandomGenerator.Next(0, mConstants.GetCellsInSector());
         }
 
         public static int Compare(int x, int y)
@@ -58,9 +58,9 @@ namespace Planets
                 return 1;
             }
         }
-        
 
-    //public Planet[] mPlanetStore;
+
+        //public Planet[] mPlanetStore;
         public int[] mByRating;
 
         public int GetPlanet(int index)
@@ -70,14 +70,23 @@ namespace Planets
 
         public int GetPlanetRating(int index)
         {
-            return mByRating[index] / mConstants.CellsInSector;
+            return mByRating[index] / mConstants.GetCellsInSector();
         }
 
 
-        
 
-        public int GetX { get; set; }
-        public int GetY { get; set; }
+
+        public int GetX()
+        {
+            return mX;
+        }
+
+        public int GetY()
+        {
+            return mY;
+        }
+
+
 
         private static Random mRandomGenerator = new Random();
     }

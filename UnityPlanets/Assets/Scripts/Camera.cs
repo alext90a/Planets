@@ -34,10 +34,26 @@ namespace Planets
         }
 
 
-        public int Top { get { return mTop; } }
-        public int Left { get { return mLeft; } }
-        public int Bottom { get { return mBottom; } }
-        public int Right { get { return mRight; } }
+        public int GetTop()
+        {
+            return mTop;
+        }
+
+        public int GetLeft()
+        {
+            return mLeft;
+        }
+
+        public int GetBottom()
+        {
+            return mBottom;
+        }
+
+        public int GetRight()
+        {
+            return mRight;
+        }
+
         public void IncreaseZoom()
         {
             ++mZoomInd;

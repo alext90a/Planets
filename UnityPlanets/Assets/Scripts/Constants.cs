@@ -26,15 +26,15 @@
             mMinPlanetScore = 0;
             mPlanetsToVisualize = 20;
         }
-        public int SectorsInSegment { get { return mSectorsInSegment; } }
-        public int PlanetsInSector { get { return mPlanetsInSector; } }
-        public int CellsInSector { get { return mCellsInSector; } }
-        public int SectorSideSize { get { return mSectorSideSize; } }
-        public float PlanetsPercent { get { return mPlanetsPercent; } }
-        public int MaxCameraSize { get { return mMaxCameraSize; } }
-        public int MinCameraSize { get { return mMinCameraSize; } }
-        public int MaxPlanetScore { get { return mMaxPlanetScore; } }
-        public int MinPlanetScore { get { return mMinPlanetScore; }}
-        public int PlanetsToVisualize { get { return mPlanetsToVisualize; } }
+        public int GetSectorsInSegment() { return mSectorsInSegment; } 
+        public int GetPlanetsInSector() { return mPlanetsInSector; } 
+        public int GetCellsInSector() { return mCellsInSector; } 
+        public int GetSectorSideSize() { return mSectorSideSize; } 
+        public float GetPlanetsPercent() { return mPlanetsPercent; } 
+        public int GetMaxCameraSize(){ return mMaxCameraSize; } 
+        public int GetMinCameraSize(){ return mMinCameraSize; } 
+        public int GetMaxPlanetScore(){ return mMaxPlanetScore; } 
+        public int GetMinPlanetScore() { return mMinPlanetScore; }
+        public int GetPlanetsToVisualize(){ return mPlanetsToVisualize; } 
     }
 }
