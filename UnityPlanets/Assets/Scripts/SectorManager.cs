@@ -127,10 +127,10 @@ namespace Planets
 
         public bool IsCameraInercectSector(int sectorIndX, int sectorIndY, int cameraTop, int cameraBottom, int cameraLeft, int cameraRight)
         {
-            int sectorLeft = sectorIndX * 100;
-            int sectorRight = sectorLeft + 100 - 1;
-            int sectorBottom = sectorIndY * 100;
-            int sectorTop = sectorBottom + 100 - 1;
+            int sectorLeft = sectorIndX * mConstants.GetSectorSideSize();
+            int sectorRight = sectorLeft + mConstants.GetSectorSideSize() - 1;
+            int sectorBottom = sectorIndY * mConstants.GetSectorSideSize();
+            int sectorTop = sectorBottom + mConstants.GetSectorSideSize() - 1;
 
             
             float cameraX = cameraLeft + (cameraRight - cameraLeft) / 2f;
@@ -138,8 +138,8 @@ namespace Planets
             float sectorX = sectorLeft + (sectorRight - sectorLeft) / 2f;
             float sectorY = sectorBottom + (sectorTop - sectorBottom) / 2f;
 
-            float sectorWidth = 100;
-            float sectorHeight = 100;
+            float sectorWidth = mConstants.GetSectorSideSize();
+            float sectorHeight = mConstants.GetSectorSideSize();
             float cameraWidth = cameraRight - cameraLeft + 1;
             float cameraHeight = cameraTop - cameraBottom + 1;
 
