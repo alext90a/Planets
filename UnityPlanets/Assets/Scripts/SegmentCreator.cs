@@ -23,25 +23,34 @@ namespace Assets.Scripts
         {
             int negativeInd = -mSectorsInRaw / 2;
             int positiveInd = mSectorsInRaw / 2;
+            int sectorsAmount = mSectorsInRaw * mSectorsInRaw;
+            var sectorStore = new ISector[sectorsAmount];
 
-            var sectorStore = new ISector[mSectorsInRaw * mSectorsInRaw];
-            if (positiveInd == negativeInd)
+            for (int i = 0; i < sectorsAmount; ++i)
             {
-                sectorStore[0] = mSectorCreator.CreateSector(-1, -1);
+                var y = i / mSectorsInRaw;
+                var x = i - y * mSectorsInRaw;
+                sectorStore[i] = mSectorCreator.CreateSector(x, y);
             }
-            else
-            {
-                int i = 0;
-                for (int y = negativeInd; y < positiveInd; ++y)
-                {
-                    for (int x = negativeInd; x < positiveInd; ++x)
-                    {
-                        sectorStore[i] = mSectorCreator.CreateSector(x, y);
-                        ++i;
-                    }
 
-                }
-            }
+            
+            //if (positiveInd == negativeInd)
+            //{
+            //    sectorStore[0] = mSectorCreator.CreateSector(-1, -1);
+            //}
+            //else
+            //{
+            //    int i = 0;
+            //    for (int y = negativeInd; y < positiveInd; ++y)
+            //    {
+            //        for (int x = negativeInd; x < positiveInd; ++x)
+            //        {
+            //            sectorStore[i] = mSectorCreator.CreateSector(x, y);
+            //            ++i;
+            //        }
+
+            //    }
+            //}
             return sectorStore;
         }
     }

@@ -16,7 +16,7 @@ namespace Planets
 
         public int Compare(int x, int y)
         {
-            if (Math.Abs(x/mConstants.GetMaxPlanetScore() - mPlayerScore) > Math.Abs(y/mConstants.GetMaxPlanetScore() - mPlayerScore))
+            if (Math.Abs(x/mConstants.GetMaxPlanetScore() - mPlayerScore) >= Math.Abs(y/mConstants.GetMaxPlanetScore() - mPlayerScore))
             {
                 return 1;
             }
