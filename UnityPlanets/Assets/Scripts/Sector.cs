@@ -39,7 +39,6 @@ namespace Planets
             }
             listRatings.Sort(mPlanetComparer);
             mByRating = listRatings.ToArray();
-            //mByRating[0] = 100009999;
         }
 
         private int GeneratePosition()
@@ -88,6 +87,6 @@ namespace Planets
 
 
 
-        private static Random mRandomGenerator = new Random();
+        private Random mRandomGenerator = new Random();
     }
 }
