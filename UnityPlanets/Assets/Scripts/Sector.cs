@@ -41,5 +41,15 @@ namespace Planets
         {
             return mY;
         }
+
+        public PlanetData GetPlanetData(int index)
+        {
+            var data = mByRating[index];
+            var score = data / mConstants.GetCellsInSector();
+            var posLocal = data - score * mConstants.GetMaxPlanetScore();
+            var posLocY = posLocal / mConstants.GetSectorSideSize();
+            var posLocX = posLocal - posLocY * mConstants.GetSectorSideSize();
+            return new PlanetData(mX * mConstants.GetSectorSideSize() + posLocX, mY * mConstants.GetSectorSideSize() + posLocY, score);
+        }
     }
 }

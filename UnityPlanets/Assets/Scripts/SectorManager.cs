@@ -47,21 +47,9 @@ namespace Planets
             var cameraLeft = mCamera.GetLeft();
             var cameraRight = mCamera.GetRight();
 
-            var startSector = mSectorStore[0];
-            for (int i = 0; i < mConstants.GetPlanetsToVisualize(); ++i)
-            {
-                if (!IsPlanetInCamera(startSector.GetPlanet(i), startSector.GetX(),
-                    startSector.GetY(), cameraTop, cameraLeft, cameraBottom, cameraRight))
-                {
-                    continue;
-                }
 
-                
-                planets.Add(GetPlanetData(startSector.GetX(), startSector.GetY(), startSector.GetPlanet(i)));
-                //sectors.Add(0);
-            }
 
-            for (int i = 1; i < mSectorStore.Length; ++i)
+            for (int i = 0; i < mSectorStore.Length; ++i)
             {
                 var inspectedSector = mSectorStore[i];
 
@@ -80,8 +68,13 @@ namespace Planets
                         continue;
                     }
 
-                    for (int j = planets.Count-1; j > -1; --j)
+                    for (int j = mConstants.GetPlanetsToVisualize()-1; j > -1; --j)
                     {
+                        
+                        if (j > planets.Count - 1)
+                        {
+                            continue;
+                        }
 
                         if (planets[j].Score < inspectedSector.GetPlanetRating(k))
                         {
@@ -92,9 +85,13 @@ namespace Planets
                     }
                     if (posToInsert != -1)
                     {
-                        planets[posToInsert] = new PlanetData(inspectedSector.GetX(), inspectedSector.GetY(), inspectedSector.GetPlanetRating(k));
-                        //sectors[posToInsert] = i;
+                        planets[posToInsert] = inspectedSector.GetPlanetData(k);
                         posToInsert = -1;
+                        continue;
+                    }
+                    if (planets.Count < mConstants.GetPlanetsToVisualize())
+                    {
+                        planets.Add(inspectedSector.GetPlanetData(k));
                         continue;
                     }
                     break;
