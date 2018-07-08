@@ -4,24 +4,30 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Planets;
 
 namespace Assets.Scripts
 {
-    public class SegmentCreator : ISegmentCreator
+    public sealed class SegmentCreator : ISegmentCreator
     {
+        [NotNull]
         private readonly IConstants mConstants;
-        private readonly ISectorCreator mSectorCreator;
+        //[NotNull]
+        //private readonly ISectorCreator mSectorCreator;
+        [NotNull]
         private readonly int mSectorsInRaw;
-
+        [NotNull]
+        private readonly IPlayer mPlayer;
+        [NotNull]
         private static WaitHandle[] waitHandles;
         private ISector[] mSectorStore;
 
-        public SegmentCreator(IConstants constants, ISectorCreator sectorCreator)
+        public SegmentCreator([NotNull]IConstants constants,  [NotNull]IPlayer player)
         {
             mConstants = constants;
-            mSectorCreator = sectorCreator;
-            mSectorsInRaw = 100;
+            mSectorsInRaw = 10;
+            mPlayer = player;
         }
 
         public ISector[] CreateSectors()
@@ -73,8 +79,7 @@ namespace Assets.Scripts
                     {
                         var y = i / mSectorsInRaw;
                         var x = i - y * mSectorsInRaw;
-                        var sector = new Sector(mConstants, new PlanetComparer(new Player(), mConstants), x, y);
-                        sector.Init();
+                        var sector = new Sector(mConstants, new PlanetFactory(mConstants, new Random(i), new PlanetComparer(mPlayer, mConstants)), x, y);
                         mSectorStore[i] = sector;// mSectorCreator.CreateSector(x, y);
                     }
                     are.Set();
@@ -103,14 +108,6 @@ namespace Assets.Scripts
             return mSectorStore;
         }
 
-        private void ThreadSegmentCreator(int startIndex, int endIndex)
-        {
-            for (int i = 0; i < endIndex; ++i)
-            {
-                var y = i / mSectorsInRaw;
-                var x = i - y * mSectorsInRaw;
-                mSectorStore[i] = mSectorCreator.CreateSector(x, y);
-            }
-        }
+        
     }
 }

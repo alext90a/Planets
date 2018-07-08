@@ -1,22 +1,25 @@
 ﻿using System.Collections.Generic;
+using Assets.Scripts;
+using JetBrains.Annotations;
 
 namespace Planets
 {
     public class SectorCreator : ISectorCreator
     {
+        [NotNull]
         private readonly IConstants mConstants;
-        private readonly IComparer<int> mComparer;
+        [NotNull]
+        private readonly IPlanetFactory mPlanetFactory;
 
-        public SectorCreator(IConstants constants, IComparer<int> comparer)
+        public SectorCreator(IConstants constants, IPlanetFactory planetFactory)
         {
             mConstants = constants;
-            mComparer = comparer;
+            mPlanetFactory = planetFactory;
         }
 
         public ISector CreateSector(int x, int y)
         {
-            var sector = new Sector(mConstants, mComparer, x, y);
-            sector.Init();
+            var sector = new Sector(mConstants, mPlanetFactory, x, y);
 
             return sector;
         }
