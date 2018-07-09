@@ -21,7 +21,9 @@ namespace Editor.UnitTests
             {
                 return new Sector[]
                 {
-                    new Sector(constants, planetFactory, 0, 0),
+                    new Sector(constants, planetFactory, -1, -1),
+                    new Sector(constants, planetFactory, -1, 0),
+                    new Sector(constants, planetFactory, 0, -1),
                     new Sector(constants, planetFactory, 0, 0),
                 };
             });

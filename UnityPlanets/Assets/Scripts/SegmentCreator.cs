@@ -77,9 +77,10 @@ namespace Assets.Scripts
                     AutoResetEvent are = (AutoResetEvent)state;
                     for (int i = startIndex; i < endIndex; ++i)
                     {
-                        var y = i / mSectorsInRaw;
-                        var x = i - y * mSectorsInRaw;
-                        var sector = new Sector(mConstants, new PlanetFactory(mConstants, new Random(i), new PlanetComparer(mPlayer, mConstants)), x, y);
+                        var y = (i / mSectorsInRaw);
+                        var x = (i - y * mSectorsInRaw);
+                        var sector = new Sector(mConstants, new PlanetFactory(mConstants, new Random(i), new PlanetComparer(mPlayer, mConstants))
+                            , x - mSectorsInRaw / 2, y - mSectorsInRaw / 2);
                         mSectorStore[i] = sector;// mSectorCreator.CreateSector(x, y);
                     }
                     are.Set();
