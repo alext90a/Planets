@@ -78,6 +78,7 @@
     <Compile Include="Assets\Scripts\ISegmentCreator.cs" />
     <Compile Include="Assets\Scripts\IUnityPlayer.cs" />
     <Compile Include="Assets\Scripts\IUnityVisualizer.cs" />
+    <Compile Include="Assets\Scripts\IVisiblePlanetsProvider.cs" />
     <Compile Include="Assets\Scripts\PlanetComparer.cs" />
     <Compile Include="Assets\Scripts\PlanetData.cs" />
     <Compile Include="Assets\Scripts\PlanetFactory.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Assets\Scripts\UnityPlanetVisualizer.cs" />
     <Compile Include="Assets\Scripts\UnityPlayer.cs" />
     <Compile Include="Assets\Scripts\UnitySectorManager.cs" />
+    <Compile Include="Assets\Scripts\VisiblePlanetsProvider.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>E:/Projects/Planets/UnityPlanets/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

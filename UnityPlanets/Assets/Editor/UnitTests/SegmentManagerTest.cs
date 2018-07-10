@@ -17,6 +17,7 @@ namespace Editor.UnitTests
             var player = new Player();
             var planetFactory = new PlanetFactory(constants, new Random(0), new PlanetComparer(player, constants));
             var segmentCreator = new SegmentCreatorMock();
+            
             segmentCreator.SetupCreateSectors(() =>
             {
                 return new Sector[]
@@ -35,7 +36,9 @@ namespace Editor.UnitTests
             camera.SetupLeftFunc(()=> -1);
             camera.SetupRightFunc(() => 8);
 
-            var sectorManager = new SectorManager(segmentCreator, constants, camera);
+            var planetProvider = new VisiblePlanetsProvider(camera, constants, player);
+
+            var sectorManager = new SectorManager(segmentCreator, constants, camera, player, planetProvider);
             sectorManager.Init();
 
             var listVisiblePlanets = new List<PlanetData>();
