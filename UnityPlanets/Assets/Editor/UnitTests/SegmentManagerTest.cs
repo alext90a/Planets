@@ -22,10 +22,10 @@ namespace Editor.UnitTests
             {
                 return new Sector[]
                 {
-                    new Sector(constants, planetFactory, -1, -1),
-                    new Sector(constants, planetFactory, -1, 0),
-                    new Sector(constants, planetFactory, 0, -1),
-                    new Sector(constants, planetFactory, 0, 0),
+                    new Sector(constants, -1, -1, planetFactory.CreatePlanetsForSector()),
+                    new Sector(constants, -1, 0, planetFactory.CreatePlanetsForSector()),
+                    new Sector(constants, 0, 1, planetFactory.CreatePlanetsForSector()),
+                    new Sector(constants, 0, 0, planetFactory.CreatePlanetsForSector()),
                 };
             });
 

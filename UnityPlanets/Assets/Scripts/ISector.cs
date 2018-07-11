@@ -9,5 +9,6 @@ namespace Planets
         int GetY();
         int GetPlanetRating(int index);
         PlanetData GetPlanetData(int index);
+        int GetPlanetAmount();
     }
 }

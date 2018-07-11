@@ -24,7 +24,7 @@ namespace Assets.Scripts
             mRandomGenerator = randomGenerator;
             mPlanetComparer = planetComparer;
         }
-        public int[] CreatePlanetsForSector(int planetsInSector)
+        public int[] CreatePlanetsForSector()
         {
             var allPositions = new HashSet<int>();
             var listRatings = new List<int>(mConstants.GetPlanetsInSector());

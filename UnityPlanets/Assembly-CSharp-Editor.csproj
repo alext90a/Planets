@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Assets\Editor\UnitTests\CameraMock.cs" />
     <Compile Include="Assets\Editor\UnitTests\SectorMock.cs" />
+    <Compile Include="Assets\Editor\UnitTests\SectorTests.cs" />
     <Compile Include="Assets\Editor\UnitTests\SegmentCreatorMock.cs" />
     <Compile Include="Assets\Editor\UnitTests\SegmentManagerTest.cs" />
     <Compile Include="Assets\Editor\UnitTests\VisiblePlanetProviderTest.cs" />

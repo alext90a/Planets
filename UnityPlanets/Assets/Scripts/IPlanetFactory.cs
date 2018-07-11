@@ -10,6 +10,6 @@ namespace Assets.Scripts
     public interface IPlanetFactory
     {
         [NotNull]
-        int[] CreatePlanetsForSector(int planetsInSector);
+        int[] CreatePlanetsForSector();
     }
 }

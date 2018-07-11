@@ -15,6 +15,7 @@ namespace Assets.Editor.UnitTests
         private Func<int> mGetYFunc = () => 0;
         private Func<int, int> mGetPlanetRatingFunc = (i) => 0;
         private Func<int, PlanetData> mGetPlanetDataFunc = (i) => new PlanetData(0,0,0);
+        private Func<int> mGetPlanetsFunc = () => 0;
 
         public void SetupGetPlanet(Func<int, int> func)
         {
@@ -34,6 +35,11 @@ namespace Assets.Editor.UnitTests
         public void SetupGetPlanetRating(Func<int, int> func)
         {
             mGetPlanetRatingFunc = func;
+        }
+
+        public void SetupGetPlanetAmount(Func<int> func)
+        {
+            mGetPlanetsFunc = func;
         }
 
         public void SetupGetPlanetData(Func<int, PlanetData> func)
@@ -64,6 +70,11 @@ namespace Assets.Editor.UnitTests
         public PlanetData GetPlanetData(int index)
         {
             return mGetPlanetDataFunc.Invoke(index);
+        }
+
+        public int GetPlanetAmount()
+        {
+            return mGetPlanetsFunc.Invoke();
         }
     }
 }

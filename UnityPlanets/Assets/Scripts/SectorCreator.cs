@@ -19,7 +19,7 @@ namespace Planets
 
         public ISector CreateSector(int x, int y)
         {
-            var sector = new Sector(mConstants, mPlanetFactory, x, y);
+            var sector = new Sector(mConstants, x, y, mPlanetFactory.CreatePlanetsForSector());
 
             return sector;
         }

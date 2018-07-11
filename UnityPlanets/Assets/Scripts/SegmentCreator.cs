@@ -75,12 +75,12 @@ namespace Assets.Scripts
                 var waitCallback = new WaitCallback((Object state) =>
                 {
                     AutoResetEvent are = (AutoResetEvent)state;
+                    var planetFactory = new PlanetFactory(mConstants, new Random(), new PlanetComparer(mPlayer, mConstants));
                     for (int i = startIndex; i < endIndex; ++i)
                     {
                         var y = (i / mSectorsInRaw);
                         var x = (i - y * mSectorsInRaw);
-                        var sector = new Sector(mConstants, new PlanetFactory(mConstants, new Random(i), new PlanetComparer(mPlayer, mConstants))
-                            , x - mSectorsInRaw / 2, y - mSectorsInRaw / 2);
+                        var sector = new Sector(mConstants, x - mSectorsInRaw / 2, y - mSectorsInRaw / 2, planetFactory.CreatePlanetsForSector());
                         mSectorStore[i] = sector;// mSectorCreator.CreateSector(x, y);
                     }
                     are.Set();

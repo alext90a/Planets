@@ -48,7 +48,7 @@ namespace Assets.Scripts
 
                 int posToInsert = -1;
 
-                for (int k = 0; k < mConstants.GetPlanetsInSector(); ++k)
+                for (int k = 0; k < inspectedSector.GetPlanetAmount(); ++k)
                 {
                     if (!IsPlanetInCamera(inspectedSector, k, cameraTop, cameraLeft, cameraBottom, cameraRight))
                     {
@@ -63,7 +63,14 @@ namespace Assets.Scripts
                         posToInsert = -1;
                         if (planets.Count > mConstants.GetPlanetsToVisualize())
                         {
-                            planets.RemoveRange(mConstants.GetPlanetsToVisualize(), planets.Count - 1);
+                            try
+                            {
+                                planets.RemoveAt(planets.Count-1);
+                            }
+                            catch 
+                            {
+                                
+                            }
                             break;
                         }
                         continue;
