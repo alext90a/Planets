@@ -63,14 +63,9 @@ namespace Assets.Scripts
                         posToInsert = -1;
                         if (planets.Count > mConstants.GetPlanetsToVisualize())
                         {
-                            try
-                            {
-                                planets.RemoveAt(planets.Count-1);
-                            }
-                            catch 
-                            {
-                                
-                            }
+                            
+                            planets.RemoveAt(planets.Count-1);
+                            
                             break;
                         }
                         continue;

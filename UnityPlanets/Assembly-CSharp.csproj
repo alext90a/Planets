@@ -76,6 +76,7 @@
     <Compile Include="Assets\Scripts\ISectorCreator.cs" />
     <Compile Include="Assets\Scripts\ISectorManager.cs" />
     <Compile Include="Assets\Scripts\ISegmentCreator.cs" />
+    <Compile Include="Assets\Scripts\IUnityPlanetData.cs" />
     <Compile Include="Assets\Scripts\IUnityPlayer.cs" />
     <Compile Include="Assets\Scripts\IUnityVisualizer.cs" />
     <Compile Include="Assets\Scripts\IVisiblePlanetsProvider.cs" />

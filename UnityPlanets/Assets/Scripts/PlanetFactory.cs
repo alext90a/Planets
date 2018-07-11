@@ -30,13 +30,12 @@ namespace Assets.Scripts
             var listRatings = new List<int>(mConstants.GetPlanetsInSector());
             for (int i = 0; i < mConstants.GetCellsInSector(); ++i)
             {
-                int generatedPosition = i;
-                //do
-                //{
-                //    generatedPosition = GeneratePosition();
-                //} while (allPositions.Contains(generatedPosition));
+                int generatedPosition;
+                do
+                {
+                    generatedPosition = GeneratePosition();
+                } while (allPositions.Contains(generatedPosition));
                 var rating = mRandomGenerator.Next(mConstants.GetMinPlanetScore(), mConstants.GetMaxPlanetScore() + 1);
-                rating = i;
 
                 allPositions.Add(generatedPosition);
 

@@ -13,7 +13,7 @@ public class UnityPlanetVisualizer : MonoBehaviour, IUnityPlanetVisualizer
     [Inject] private readonly UnityPlanetDataFactory mPlanetDataFactory;
 
 
-    private List<GameObject> mPlanets = new List<GameObject>();
+    private List<IUnityPlanetData> mPlanets = new List<IUnityPlanetData>();
     
     private void Awake()
     {
@@ -25,7 +25,7 @@ public class UnityPlanetVisualizer : MonoBehaviour, IUnityPlanetVisualizer
             var planet = mPlanetDataFactory.Create().gameObject;
             planet.transform.parent = transform;
             planet.SetActive(false);
-            mPlanets.Add(planet);
+            mPlanets.Add(planet.GetComponent<IUnityPlanetData>());
 
         }
         child.SetActive(false);
@@ -46,16 +46,12 @@ public class UnityPlanetVisualizer : MonoBehaviour, IUnityPlanetVisualizer
     {
         for (int i = 0; i < mPlanets.Count; ++i)
         {
-            mPlanets[i].SetActive(false);
+            mPlanets[i].Deactivate();
         }
 
         for(int i= 0; i < planets.Count; ++i)
         {
-            mPlanets[i].SetActive(true);
-            var oldPos = mPlanets[i].transform.position;
-            oldPos.x = planets[i].X +0.5f;
-            oldPos.y = planets[i].Y + 0.5f;
-            mPlanets[i].transform.position = oldPos;
+            mPlanets[i].Activate(planets[i].X, planets[i].Y, planets[i].Score);
         }
     }
 }
