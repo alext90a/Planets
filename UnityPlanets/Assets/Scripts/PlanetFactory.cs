@@ -28,7 +28,7 @@ namespace Assets.Scripts
         {
             var allPositions = new HashSet<int>();
             var listRatings = new List<int>(mConstants.GetPlanetsInSector());
-            for (int i = 0; i < mConstants.GetCellsInSector(); ++i)
+            for (int i = 0; i < mConstants.GetPlanetsInSector(); ++i)
             {
                 int generatedPosition;
                 do
