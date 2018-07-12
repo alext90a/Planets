@@ -47,6 +47,16 @@ namespace Planets
             mPlayerListeners.Add(listener);
         }
 
+        public int GetX()
+        {
+            return mX;
+        }
+
+        public int GetY()
+        {
+            return mY;
+        }
+
         private void UpdateListeners()
         {
             for (int i = 0; i < mPlayerListeners.Count; ++i)

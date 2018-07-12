@@ -11,5 +11,7 @@ namespace Planets
         void MoveTop();
         void MoveBottom();
         void AddListener(IPlayerListener listener);
+        int GetX();
+        int GetY();
     }
 }

@@ -91,10 +91,25 @@ namespace Assets.Scripts
                     continue;
                 }
 
-                if (Math.Abs(mPlayer.Score - planets[j].Score) > Math.Abs(mPlayer.Score - inspectedSector.GetPlanetRating(k)))
+                var inStoreDistance = Math.Abs(mPlayer.Score - planets[j].Score);
+                var pretenderDistance = Math.Abs(mPlayer.Score - inspectedSector.GetPlanetRating(k));
+                if ( inStoreDistance > pretenderDistance)
                 {
                     posToInsert = j;
                     continue;
+                }
+                if (inStoreDistance == pretenderDistance)
+                {
+                    var pretenderPlanet = inspectedSector.GetPlanetData(k);
+                    var distanceToStore = (mPlayer.GetX() - planets[j].X) * (mPlayer.GetX() - planets[j].X)
+                                          + (mPlayer.GetY() - planets[j].Y) * (mPlayer.GetY() - planets[j].Y);
+                    var distanceToPretender = (mPlayer.GetX() - pretenderPlanet.X) * (mPlayer.GetX() - pretenderPlanet.X)
+                                              + (mPlayer.GetY() - pretenderPlanet.Y) * (mPlayer.GetY() - pretenderPlanet.Y);
+                    if (distanceToPretender < distanceToStore)
+                    {
+                        posToInsert = j;
+                        continue;
+                    }
                 }
                 break;
             }
