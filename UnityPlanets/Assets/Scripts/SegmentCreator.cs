@@ -26,7 +26,7 @@ namespace Assets.Scripts
         public SegmentCreator([NotNull]IConstants constants,  [NotNull]IPlayer player)
         {
             mConstants = constants;
-            mSectorsInRaw = 2;
+            mSectorsInRaw = 100;
             mPlayer = player;
         }
 
