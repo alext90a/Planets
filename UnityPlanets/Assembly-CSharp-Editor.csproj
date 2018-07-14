@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\UnitTests\CameraMock.cs" />
+    <Compile Include="Assets\Editor\UnitTests\QuadTreeCreatorTest.cs" />
     <Compile Include="Assets\Editor\UnitTests\SectorMock.cs" />
     <Compile Include="Assets\Editor\UnitTests\SectorTests.cs" />
     <Compile Include="Assets\Editor\UnitTests\SegmentCreatorMock.cs" />

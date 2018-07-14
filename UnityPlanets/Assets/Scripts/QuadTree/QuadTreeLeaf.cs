@@ -1,0 +1,140 @@
+﻿using System;
+using System.Collections.Generic;
+using JetBrains.Annotations;
+using Planets;
+
+namespace Assets.Scripts.QuadTree
+{
+    public sealed class QuadTreeLeaf : IQuadTreeNode
+    {
+        private readonly AABBox mBox;
+        [NotNull]
+        private readonly int[] mPlanetRawData;
+
+        [NotNull] private readonly IConstants mConstants;
+        [NotNull] private readonly IPlayer mPlayer;
+
+        public QuadTreeLeaf(AABBox box
+            , [NotNull] int[] planetData
+            , [NotNull] IConstants constants
+            , [NotNull] IPlayer player)
+        {
+            mBox = box;
+            mPlanetRawData = planetData;
+            mConstants = constants;
+            mPlayer = player;
+        }
+
+        public void GetVisiblePlanets(AABBox cameraBox, List<PlanetData> visiblePlanets)
+        {
+            if (!mBox.IsIntersect(cameraBox))
+            {
+                return;
+            }
+            int posToInsert = -1;
+            for (int i = 0; i < mPlanetRawData.Length; ++i)
+            {
+                if (!IsPlanetInCamera(i, cameraBox))
+                {
+                    continue;
+                }
+
+                posToInsert = FindPosToInsert(visiblePlanets, i);
+
+                if (posToInsert != -1)
+                {
+                    visiblePlanets.Insert(posToInsert, GetPlanetData(i));
+                    posToInsert = -1;
+                    if (visiblePlanets.Count > mConstants.GetPlanetsToVisualize())
+                    {
+
+                        visiblePlanets.RemoveAt(visiblePlanets.Count - 1);
+
+                        break;
+                    }
+                    continue;
+                }
+                if (visiblePlanets.Count < mConstants.GetPlanetsToVisualize())
+                {
+                    visiblePlanets.Add(GetPlanetData(i));
+                    continue;
+                }
+                break;
+            }
+        }
+
+        public AABBox GetAABBox()
+        {
+            return mBox;
+        }
+
+
+        private bool IsPlanetInCamera(int planetIndex, AABBox cameraBox)
+        {
+            var planetData = GetPlanetData(planetIndex);
+            var cameraTop = cameraBox.GetY() + cameraBox.GetHeight() / 2f;
+            var cameraBottom = cameraTop - cameraBox.GetHeight();
+            var cameraLeft = cameraBox.GetX() - cameraBox.GetWidth() / 2f;
+            var cameraRight = cameraLeft + cameraBox.GetWidth();
+
+            if ((cameraTop >= planetData.Y && cameraBottom <= planetData.Y) &&
+                (cameraLeft <= planetData.X && cameraRight >= planetData.X))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private int FindPosToInsert([NotNull]List<PlanetData> planets, int planetIndex)
+        {
+            var posToInsert = -1;
+            for (int j = mConstants.GetPlanetsToVisualize() - 1; j > -1; --j)
+            {
+
+                if (j > planets.Count - 1)
+                {
+                    continue;
+                }
+
+                var inStoreDistance = Math.Abs(mPlayer.Score - planets[j].Score);
+                var pretenderDistance = Math.Abs(mPlayer.Score - GetPlanetRating(planetIndex));
+                if (inStoreDistance > pretenderDistance)
+                {
+                    posToInsert = j;
+                    continue;
+                }
+                if (inStoreDistance == pretenderDistance)
+                {
+                    var pretenderPlanet = GetPlanetData(planetIndex);
+                    var distanceToStore = (mPlayer.GetX() - planets[j].X) * (mPlayer.GetX() - planets[j].X)
+                                          + (mPlayer.GetY() - planets[j].Y) * (mPlayer.GetY() - planets[j].Y);
+                    var distanceToPretender = (mPlayer.GetX() - pretenderPlanet.X) * (mPlayer.GetX() - pretenderPlanet.X)
+                                              + (mPlayer.GetY() - pretenderPlanet.Y) * (mPlayer.GetY() - pretenderPlanet.Y);
+                    if (distanceToPretender < distanceToStore)
+                    {
+                        posToInsert = j;
+                        continue;
+                    }
+                }
+                break;
+            }
+            return posToInsert;
+        }
+
+        private PlanetData GetPlanetData(int index)
+        {
+            var data = mPlanetRawData[index];
+            var score = data / mConstants.GetCellsInSector();
+            var posLocal = data - score * mConstants.GetMaxPlanetScore();
+            var posLocY = posLocal / mConstants.GetSectorSideSize();
+            var posLocX = posLocal - posLocY * mConstants.GetSectorSideSize();
+            return new PlanetData(mBox.GetX() - mBox.GetWidth()/2 + posLocX, mBox.GetY() + mBox.GetHeight()/2 - posLocY, score);
+        }
+
+        private int GetPlanetRating(int index)
+        {
+            return mPlanetRawData[index] / mConstants.GetCellsInSector();
+        }
+    }
+}

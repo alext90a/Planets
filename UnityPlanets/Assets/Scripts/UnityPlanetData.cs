@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,10 +19,10 @@ public class UnityPlanetData : MonoBehaviour, IUnityPlanetData
 		
 	}
 
-    public void Activate(int xPos, int yPos, int score)
+    public void Activate(PlanetData planetData)
     {
-        transform.position = new Vector3(xPos + 0.5f, yPos + 0.5f);
-        mText.text = score.ToString();
+        transform.position = new Vector3(planetData.X + 0.5f, planetData.Y + 0.5f);
+        mText.text = planetData.Score.ToString();
         gameObject.SetActive(true);
     }
 

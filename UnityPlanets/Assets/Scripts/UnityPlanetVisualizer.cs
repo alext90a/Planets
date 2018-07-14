@@ -51,7 +51,7 @@ public class UnityPlanetVisualizer : MonoBehaviour, IUnityPlanetVisualizer
 
         for(int i= 0; i < planets.Count; ++i)
         {
-            mPlanets[i].Activate(planets[i].X, planets[i].Y, planets[i].Score);
+            mPlanets[i].Activate(planets[i]);
         }
     }
 }

@@ -1,25 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Assets.Scripts
+﻿namespace Assets.Scripts
 {
     public struct PlanetData
     {
-        private int mX;
-        private int mY;
-        private int mScore;
+        private readonly float mX;
+        private readonly float mY;
+        private readonly int mScore;
 
-        public PlanetData(int x, int y, int score)
+        public PlanetData(float x, float y, int score)
         {
             mX = x;
             mY = y;
             mScore = score;
         }
 
-        public int X { get { return mX; } }
-        public int Y { get { return mY; } }
+        public float X { get { return mX; } }
+        public float Y { get { return mY; } }
         public int Score { get { return mScore; } }
     }
 }
