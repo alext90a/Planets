@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Assets.Scripts;
 using Assets.Scripts.QuadTree;
 using NUnit.Framework;
@@ -11,6 +13,10 @@ public sealed class QuadTreeCreatorTest
     [Test]
     public void CreatorTest()
     {
+        var generator1 = new Random();
+        var generator2 = new Random();
+        var re1 = generator1.Next(0, 10000);
+        var res2 = generator2.Next(0, 10000);
         var constants = new Constants();
         var player = new Player();
         var planetFactoryCreator = new PlanetFactoryCreator(player, constants);
@@ -21,5 +27,56 @@ public sealed class QuadTreeCreatorTest
         var cameraBox = new AABBox(0f, 0f, 100f, 100f);
         var visiblePlanets = new List<PlanetData>();
         rootNode.GetVisiblePlanets(cameraBox, visiblePlanets);
+
+        Assert.AreEqual(constants.GetPlanetsToVisualize(), visiblePlanets.Count);
+    }
+
+
+    [Test]
+    public void PerformanceTest()
+    {
+        var constants = new Constants();
+        var player = new Player();
+        var planetFactoryCreator = new PlanetFactoryCreator(player, constants);
+        var camera = new Camera();
+        camera.IncreaseZoom();
+        camera.IncreaseZoom();
+        var visiblePlanets2 = new List<PlanetData>();
+        var cameraBox = new AABBox(0f, 0f, 100f, 100f);
+        var visiblePlanets = new List<PlanetData>();
+        var visiblePlanetProvider = new VisiblePlanetsProvider(camera, constants, player);
+
+        var timeNodeCreator = Stopwatch.StartNew();
+        var quadCreator = new StartNodeCreator(constants, player, planetFactoryCreator);
+        var rootNode = quadCreator.Create();
+        timeNodeCreator.Stop();
+
+
+        var timerSegmentCreator = Stopwatch.StartNew();
+        var segment = new SegmentCreator(constants, player);
+        var allSectors = segment.CreateSectors();
+        timerSegmentCreator.Stop();
+
+
+        var timerTreeSearcher = Stopwatch.StartNew();
+        rootNode.GetVisiblePlanets(cameraBox, visiblePlanets);
+        timerTreeSearcher.Stop();
+
+        var timerSegmentSearcher = Stopwatch.StartNew();
+        visiblePlanetProvider.GetVisiblePlanets(visiblePlanets2, allSectors);
+        timerSegmentSearcher.Stop();
+        
+        
+        Assert.AreEqual(20, visiblePlanets.Count);
+        Assert.AreEqual(20, visiblePlanets2.Count);
+
+        //for (int i = 0; i < visiblePlanets.Count; ++i)
+        //{
+        //    var planetData1 = visiblePlanets[i];
+        //    var planetData2 = visiblePlanets2[i];
+        //    Assert.AreEqual(planetData2.Score, planetData1.Score);
+        //    Assert.AreEqual(planetData2.X, planetData1.X);
+        //    Assert.AreEqual(planetData2.Y, planetData1.Y);
+        //}
     }
 }

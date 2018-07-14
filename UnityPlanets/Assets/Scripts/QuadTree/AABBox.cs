@@ -7,7 +7,7 @@ using Boo.Lang.Environments;
 
 namespace Assets.Scripts.QuadTree
 {
-    public struct AABBox
+    public sealed class AABBox
     {
         private readonly float mX;
         private readonly float mY;

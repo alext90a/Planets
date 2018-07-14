@@ -38,16 +38,10 @@ namespace QuadTree
             if (levels > 0)
             {
                 var allSubsectorsList = CreateQuadTreeNodesOnMultithreds(segmentSize);
-                while (allSubsectorsList.Count != 1)
-                {
-                    allSubsectorsList = Merge(allSubsectorsList);
-                }
-                
-                rootNode = allSubsectorsList[0];
+                rootNode = new QuadTreeNodeMerger().Merge(allSubsectorsList);
             }
             else
             {
-
                 rootNode = new QuadTreeLeaf(new AABBox(0f, 0f, segmentSize, segmentSize),  planetDataProvider.CreatePlanetsForSector(), mConstants, mPlayer);
             }
             return rootNode;
@@ -92,12 +86,8 @@ namespace QuadTree
                                        subsectorSideSize / 2f;
 
                             var allLeafs = CreateStartLeafs(subsectorSideSize, posX, posY);
-                            var mergedNodes = allLeafs;
-                            while (mergedNodes.Count != 1)
-                            {
-                                mergedNodes = Merge(mergedNodes);
-                            }
-                            allSubsectors[j] = mergedNodes[0];
+
+                            allSubsectors[j] = new QuadTreeNodeMerger().Merge(allLeafs);
                         }
                     }
                     catch (Exception e)
@@ -112,35 +102,6 @@ namespace QuadTree
             var allSubsectorsList = new List<IQuadTreeNode>(subsectors);
             allSubsectorsList.AddRange(allSubsectors);
             return allSubsectorsList;
-        }
-
-        [NotNull]
-        private List<IQuadTreeNode> Merge([NotNull] List<IQuadTreeNode> mergedNodes)
-        {
-            int startRawSize = 1;
-            do
-            {
-                startRawSize *= 2;
-            } while (startRawSize * startRawSize < mergedNodes.Count);
-
-            var endRawSize = startRawSize / 2;
-            var resultSize = endRawSize * endRawSize;
-            var resultList = new List<IQuadTreeNode>(resultSize);
-            for (int i = 0; i < resultSize; ++i)
-            {
-                var index = i * 2 + i / endRawSize * startRawSize;
-                var topLeft = mergedNodes[index];
-                var topRight = mergedNodes[index + 1];
-                var bottomLeft = mergedNodes[index + startRawSize];
-                var bottomRight = mergedNodes[index + startRawSize + 1];
-                var topLeftBox = topLeft.GetAABBox();
-                var box = new AABBox(topLeftBox.GetX() + topLeftBox.GetWidth()/2f
-                    , topLeftBox.GetY() - topLeftBox.GetHeight()/2f
-                    , topLeftBox.GetWidth()*2f
-                    , topLeftBox.GetHeight()*2f);
-                resultList.Add(new QuadTreeNode(box, topLeft, topRight, bottomLeft, bottomRight));
-            }
-            return resultList;
         }
 
         [NotNull]

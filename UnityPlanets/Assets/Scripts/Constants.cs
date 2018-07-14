@@ -16,7 +16,7 @@
         public Constants()
         {
             mMinCameraSize = 5;
-            mMaxCameraSize = 1000;
+            mMaxCameraSize = 10000;
             mSectorSideSize = 100;
             mCellsInSector = mSectorSideSize * mSectorSideSize;
             mSectorsInSegment = (mMaxCameraSize * mMaxCameraSize) / (mCellsInSector);
