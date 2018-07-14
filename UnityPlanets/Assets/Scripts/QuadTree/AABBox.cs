@@ -7,7 +7,7 @@ using Boo.Lang.Environments;
 
 namespace Assets.Scripts.QuadTree
 {
-    public sealed class AABBox
+    public sealed class AABBox : IAABBox
     {
         private readonly float mX;
         private readonly float mY;
@@ -50,7 +50,7 @@ namespace Assets.Scripts.QuadTree
             return mHeight;
         }
 
-        public bool IsIntersect(AABBox other)
+        public bool IsIntersect(IAABBox other)
         {
             return (Math.Abs(mX - other.GetX()) * 2 < (mWidth + other.GetWidth())) &&
                    (Math.Abs(mY - other.GetY()) * 2 < (mHeight + other.GetHeight()));

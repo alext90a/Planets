@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts;
+using Assets.Scripts.QuadTree;
 using Planets;
+using QuadTree;
 using UnityEngine;
 using Zenject;
 using Camera = UnityEngine.Camera;
@@ -10,7 +13,7 @@ public class UnityCamera : MonoBehaviour, ICameraListener
     [Inject] private ICamera mPlanetCamera;
 
     private Camera mCamera;
-    
+
 
     void Awake()
     {

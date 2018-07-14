@@ -1,8 +1,9 @@
 ﻿using Assets.Scripts;
+using Assets.Scripts.QuadTree;
 
 namespace Planets
 {
-    public interface ICamera : IPlayerListener
+    public interface ICamera : IPlayerListener, IAABBox
     {
         int GetTop();
         int GetLeft();

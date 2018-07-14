@@ -7,9 +7,12 @@ using JetBrains.Annotations;
 
 namespace Assets.Scripts.QuadTree
 {
-    public interface IQuadTreeNode
+    public interface IAABBox
     {
-        void GetVisiblePlanets([NotNull]IAABBox cameraBox, [NotNull]List<PlanetData> visiblePlanets);
-        [NotNull]IAABBox GetAABBox();
+        float GetX();
+        float GetY();
+        float GetWidth();
+        float GetHeight();
+        bool IsIntersect([NotNull]IAABBox other);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using Assets.Scripts;
+using Assets.Scripts.QuadTree;
 using JetBrains.Annotations;
 using Planets;
 
@@ -110,6 +111,31 @@ namespace Editor.UnitTests
         public void AddBorderChangeListener(IBordersChangeListener listener)
         {
             throw new System.NotImplementedException();
+        }
+
+        public float GetX()
+        {
+            throw new NotImplementedException();
+        }
+
+        public float GetY()
+        {
+            throw new NotImplementedException();
+        }
+
+        public float GetWidth()
+        {
+            throw new NotImplementedException();
+        }
+
+        public float GetHeight()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsIntersect(IAABBox other)
+        {
+            throw new NotImplementedException();
         }
     }
 

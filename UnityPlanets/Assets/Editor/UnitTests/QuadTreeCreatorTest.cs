@@ -13,10 +13,6 @@ public sealed class QuadTreeCreatorTest
     [Test]
     public void CreatorTest()
     {
-        var generator1 = new Random();
-        var generator2 = new Random();
-        var re1 = generator1.Next(0, 10000);
-        var res2 = generator2.Next(0, 10000);
         var constants = new Constants();
         var player = new Player();
         var planetFactoryCreator = new PlanetFactoryCreator(player, constants);

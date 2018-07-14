@@ -1,10 +1,13 @@
 ﻿using System;
 using Assets.Scripts;
+using Assets.Scripts.QuadTree;
 using Boo.Lang;
+using QuadTree;
+using Zenject;
 
 namespace Planets
 {
-    public class Camera : ICamera
+    public class Camera : ICamera, IAABBox
     {
         private int mX;
         private int mY;
@@ -22,6 +25,8 @@ namespace Planets
 
         private List<ICameraListener> mListeners = new List<ICameraListener>();
         private List<IBordersChangeListener> mBorderListeners = new List<IBordersChangeListener>();
+
+        
 
         public Camera()
         {
@@ -146,6 +151,32 @@ namespace Planets
             {
                 mBorderListeners[i].NewBorders(mTop, mBottom, mLeft, mRight);
             }
+        }
+
+        public float GetX()
+        {
+            return mLeft + GetWidth() / 2f;
+        }
+
+        public float GetY()
+        {
+            return mBottom + GetHeight() / 2f;
+        }
+
+        public float GetWidth()
+        {
+            return mRight - mLeft;
+        }
+
+        public float GetHeight()
+        {
+            return mTop - mBottom;
+        }
+
+        public bool IsIntersect(IAABBox other)
+        {
+            return (Math.Abs(GetX() - other.GetX()) * 2 < (GetWidth() + other.GetWidth())) &&
+                   (Math.Abs(GetY() - other.GetY()) * 2 < ( + other.GetHeight()));
         }
     }
 }

@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Assets.Scripts;
 using Assets.Scripts.QuadTree;
 using JetBrains.Annotations;
-using Planets;
-using UnityEngine;
 
 public class QuadTreeNode : IQuadTreeNode
 {
@@ -16,10 +13,10 @@ public class QuadTreeNode : IQuadTreeNode
     private IQuadTreeNode mBottomLeft;
     [NotNull]
     private IQuadTreeNode mBottomRight;
+    [NotNull]
+    private readonly IAABBox mBox;
 
-    private readonly AABBox mBox;
-
-    public QuadTreeNode(AABBox box
+    public QuadTreeNode([NotNull]IAABBox box
         ,[NotNull] IQuadTreeNode topLeft
         , [NotNull] IQuadTreeNode topRight
         , [NotNull] IQuadTreeNode bottomLeft
@@ -32,7 +29,7 @@ public class QuadTreeNode : IQuadTreeNode
         mBottomRight = bottomRight;
     }
 
-    public void GetVisiblePlanets(AABBox cameraBox, List<PlanetData> visiblePlanets)
+    public void GetVisiblePlanets(IAABBox cameraBox, List<PlanetData> visiblePlanets)
     {
         if (!mBox.IsIntersect(cameraBox))
         {
@@ -44,7 +41,7 @@ public class QuadTreeNode : IQuadTreeNode
         mBottomRight.GetVisiblePlanets(cameraBox, visiblePlanets);
     }
 
-    public AABBox GetAABBox()
+    public IAABBox GetAABBox()
     {
         return mBox;
     }

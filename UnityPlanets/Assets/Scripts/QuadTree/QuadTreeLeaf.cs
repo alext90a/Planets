@@ -7,14 +7,15 @@ namespace Assets.Scripts.QuadTree
 {
     public sealed class QuadTreeLeaf : IQuadTreeNode
     {
-        private readonly AABBox mBox;
+        [NotNull]
+        private readonly IAABBox mBox;
         [NotNull]
         private readonly int[] mPlanetRawData;
 
         [NotNull] private readonly IConstants mConstants;
         [NotNull] private readonly IPlayer mPlayer;
 
-        public QuadTreeLeaf(AABBox box
+        public QuadTreeLeaf([NotNull]IAABBox box
             , [NotNull] int[] planetData
             , [NotNull] IConstants constants
             , [NotNull] IPlayer player)
@@ -25,7 +26,7 @@ namespace Assets.Scripts.QuadTree
             mPlayer = player;
         }
 
-        public void GetVisiblePlanets(AABBox cameraBox, List<PlanetData> visiblePlanets)
+        public void GetVisiblePlanets(IAABBox cameraBox, List<PlanetData> visiblePlanets)
         {
             if (!mBox.IsIntersect(cameraBox))
             {
@@ -47,10 +48,7 @@ namespace Assets.Scripts.QuadTree
                     posToInsert = -1;
                     if (visiblePlanets.Count > mConstants.GetPlanetsToVisualize())
                     {
-
                         visiblePlanets.RemoveAt(visiblePlanets.Count - 1);
-
-                        break;
                     }
                     continue;
                 }
@@ -63,13 +61,13 @@ namespace Assets.Scripts.QuadTree
             }
         }
 
-        public AABBox GetAABBox()
+        public IAABBox GetAABBox()
         {
             return mBox;
         }
 
 
-        private bool IsPlanetInCamera(int planetIndex, AABBox cameraBox)
+        private bool IsPlanetInCamera(int planetIndex, [NotNull]IAABBox cameraBox)
         {
             var planetData = GetPlanetData(planetIndex);
             var cameraTop = cameraBox.GetY() + cameraBox.GetHeight() / 2f;
