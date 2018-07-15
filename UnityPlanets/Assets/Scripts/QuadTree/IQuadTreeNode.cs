@@ -11,5 +11,6 @@ namespace Assets.Scripts.QuadTree
     {
         void GetVisiblePlanets([NotNull]IAABBox cameraBox, [NotNull]List<PlanetData> visiblePlanets);
         [NotNull]IAABBox GetAABBox();
+        void VisitNodes(INodeVisitor nodeVisitor);
     }
 }

@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 using Planets;
 using QuadTree;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
 
 public class UnityQuadTreeManager : MonoBehaviour, IBordersChangeListener
@@ -14,6 +15,7 @@ public class UnityQuadTreeManager : MonoBehaviour, IBordersChangeListener
     [NotNull][Inject] private readonly StartNodeCreator mStartNodeCreator;
     private IQuadTreeNode mRootNode;
     [NotNull][Inject] private readonly IUnityPlanetVisualizer mUnityPlanetVisualizer;
+    public Text mLoadingProgressText;
 
     [NotNull]private readonly List<PlanetData> mPlanetData = new List<PlanetData>(25);
     // Use this for initialization
@@ -28,7 +30,7 @@ public class UnityQuadTreeManager : MonoBehaviour, IBordersChangeListener
 	
 	// Update is called once per frame
 	void Update () {
-		
+		mLoadingProgressText.text = mStartNodeCreator.mProgress.ToString();
 	}
 
     public void NewBorders(int top, int bottom, int left, int right)

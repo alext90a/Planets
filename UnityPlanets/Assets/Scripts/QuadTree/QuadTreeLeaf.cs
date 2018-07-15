@@ -9,19 +9,17 @@ namespace Assets.Scripts.QuadTree
     {
         [NotNull]
         private readonly IAABBox mBox;
-        [NotNull]
-        private readonly int[] mPlanetRawData;
+        [CanBeNull]
+        private int[] mPlanetRawData;
 
         [NotNull] private readonly IConstants mConstants;
         [NotNull] private readonly IPlayer mPlayer;
 
         public QuadTreeLeaf([NotNull]IAABBox box
-            , [NotNull] int[] planetData
             , [NotNull] IConstants constants
             , [NotNull] IPlayer player)
         {
             mBox = box;
-            mPlanetRawData = planetData;
             mConstants = constants;
             mPlayer = player;
         }
@@ -29,6 +27,10 @@ namespace Assets.Scripts.QuadTree
         public void GetVisiblePlanets(IAABBox cameraBox, List<PlanetData> visiblePlanets)
         {
             if (!mBox.IsIntersect(cameraBox))
+            {
+                return;
+            }
+            if (mPlanetRawData == null)
             {
                 return;
             }
@@ -64,6 +66,11 @@ namespace Assets.Scripts.QuadTree
         public IAABBox GetAABBox()
         {
             return mBox;
+        }
+
+        public void VisitNodes(INodeVisitor nodeVisitor)
+        {
+            mPlanetRawData = nodeVisitor.GetPlanetData();
         }
 
 

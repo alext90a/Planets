@@ -50,5 +50,15 @@ namespace Assets.Scripts
         {
             return mRandomGenerator.Next(0, mConstants.GetCellsInSector());
         }
+
+        public void Run()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int[] GetPlanetData()
+        {
+            return CreatePlanetsForSector();
+        }
     }
 }

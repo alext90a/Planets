@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading;
+using System.Threading.Tasks;
 using Assets.Scripts;
 using Assets.Scripts.QuadTree;
+using Boo.Lang.Runtime.DynamicDispatching;
 using JetBrains.Annotations;
 using Planets;
 
@@ -15,6 +18,10 @@ namespace QuadTree
         [NotNull] private readonly IPlanetFactoryCreator mPlanetFactoryCreator;
         [NotNull]
         private static WaitHandle[] waitHandles;
+
+        [NotNull] private IQuadTreeNode[] mLoadingNodes;
+
+        public int mProgress = 0;
         public StartNodeCreator([NotNull] IConstants constants, [NotNull] IPlayer player, [NotNull] IPlanetFactoryCreator planetFactoryCreator)
         {
             mConstants = constants;
@@ -42,7 +49,7 @@ namespace QuadTree
             }
             else
             {
-                rootNode = new QuadTreeLeaf(new AABBox(0f, 0f, segmentSize, segmentSize),  planetDataProvider.CreatePlanetsForSector(), mConstants, mPlayer);
+                rootNode = new QuadTreeLeaf(new AABBox(0f, 0f, segmentSize, segmentSize), mConstants, mPlayer);
             }
             return rootNode;
         }
@@ -61,6 +68,9 @@ namespace QuadTree
                 subSectorsInRaw *= 2;
                 subsectorSideSize /= 2;
             }
+            var sectorsInSegment = subSectorsInRaw * subsectorSideSize / mConstants.GetSectorSideSize();
+            sectorsInSegment *= sectorsInSegment;
+            mLoadingNodes = new IQuadTreeNode[sectorsInSegment];
             var subsectorsPerProc = subsectors / processorCount;
             if (subsectors % processorCount != 0)
             {
@@ -87,8 +97,24 @@ namespace QuadTree
 
                             var allLeafs = CreateStartLeafs(subsectorSideSize, posX, posY);
 
+                            //
+                            var startIndex1 = startIndex * allLeafs.Count;
+                            var endIndex1 = startIndex1 + allLeafs.Count;
+                            var l = 0;
+                            for (int k = startIndex1; k < endIndex1; ++k)
+                            {
+                                if (mLoadingNodes.Length <= k)
+                                {
+                                    int adfa;
+                                    adfa = 9;
+                                }
+                                mLoadingNodes[k] = allLeafs[l];
+                                ++l;
+                            }
+
                             allSubsectors[j] = new QuadTreeNodeMerger().Merge(allLeafs);
                         }
+
                     }
                     catch (Exception e)
                     {
@@ -101,8 +127,44 @@ namespace QuadTree
             WaitHandle.WaitAll(waitHandles);
             var allSubsectorsList = new List<IQuadTreeNode>(subsectors);
             allSubsectorsList.AddRange(allSubsectors);
+
+            BackgroundWorker worker = new BackgroundWorker();
+            var progressMy = 0;
+            var planetFactory = mPlanetFactoryCreator.CreatePlanetFactory();
+            worker.DoWork += delegate(object sender, DoWorkEventArgs args)
+            {
+                try
+                {
+                    var progress = 0;
+                    for (int i = 0; i < mLoadingNodes.Length; ++i)
+                    {
+                        if (mLoadingNodes[i] == null)
+                        {
+                            continue;
+                        }
+                        mLoadingNodes[i].VisitNodes(planetFactory);
+                        var floatData = ((float) i / mLoadingNodes.Length) *100f;
+
+                        worker.ReportProgress((int)floatData);
+                    }
+                }
+                catch (Exception e)
+                {
+                    
+                }
+                
+            };
+            worker.WorkerReportsProgress = true;
+            worker.ProgressChanged += (sender, args) => { CallBackFromLoad(sender, args);};
+            worker.RunWorkerAsync();
             return allSubsectorsList;
         }
+
+        private void CallBackFromLoad(object sender, ProgressChangedEventArgs args)
+        {
+            mProgress = args.ProgressPercentage;
+        }
+
 
         [NotNull]
         private List<IQuadTreeNode> CreateStartLeafs(int segmentSideSize, float segmentX, float segmentY)
@@ -121,7 +183,7 @@ namespace QuadTree
                 y = segmentY + segmentHalfSize - y * mConstants.GetSectorSideSize() - sectorHalfSize;
                 
                 var box = new AABBox(x, y, mConstants.GetSectorSideSize(), mConstants.GetSectorSideSize());
-                sectorStore.Add(new QuadTreeLeaf(box, planetDataProvider.CreatePlanetsForSector(), mConstants, mPlayer));
+                sectorStore.Add(new QuadTreeLeaf(box, mConstants, mPlayer));
             }
             return sectorStore;
         }

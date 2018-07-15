@@ -45,4 +45,12 @@ public class QuadTreeNode : IQuadTreeNode
     {
         return mBox;
     }
+
+    public void VisitNodes(INodeVisitor nodeVisitor)
+    {
+        mTopLeft.VisitNodes(nodeVisitor);
+        mTopRight.VisitNodes(nodeVisitor);
+        mBottomLeft.VisitNodes(nodeVisitor);
+        mBottomRight.VisitNodes(nodeVisitor);
+    }
 }

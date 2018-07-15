@@ -90,6 +90,7 @@
     <Compile Include="Assets\Scripts\ProjectInstaller.cs" />
     <Compile Include="Assets\Scripts\QuadTree\AABBox.cs" />
     <Compile Include="Assets\Scripts\QuadTree\IAABBox.cs" />
+    <Compile Include="Assets\Scripts\QuadTree\INodeVisitor.cs" />
     <Compile Include="Assets\Scripts\QuadTree\IQuadTreeMerger.cs" />
     <Compile Include="Assets\Scripts\QuadTree\IQuadTreeNode.cs" />
     <Compile Include="Assets\Scripts\QuadTree\QuadTreeLeaf.cs" />
