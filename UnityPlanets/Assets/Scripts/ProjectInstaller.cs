@@ -25,6 +25,8 @@ public class ProjectInstaller : MonoInstaller<ProjectInstaller>
         Container.BindFactory<UnityPlanetData, UnityPlanetDataFactory>().FromComponentInNewPrefab(mPlanetDataObject);
         Container.Bind<StartNodeCreator>().To<StartNodeCreator>().AsSingle();
         Container.Bind<IPlanetFactoryCreator>().To<PlanetFactoryCreator>().AsSingle();
+        Container.Bind<StartUpNodeInitializer>().To<StartUpNodeInitializer>().AsSingle();
+        Container.Bind<IArrayBackgroundWorker>().To<ArrayBackgroundWorker>().AsSingle();
 
         //Container.BindFactory<IShell, Shell.ShellFactory>().FromComponentInNewPrefab(mShellPrefab);
         //Container.BindFactory<IAirBomb, AirBomb.AirBombFactory>().FromComponentInNewPrefab(mAirbombPrefab);

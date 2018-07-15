@@ -8,9 +8,8 @@ using JetBrains.Annotations;
 
 namespace Assets.Scripts
 {
-    public interface IPlanetFactory
+    public interface IStartUpNodeInitializer
     {
-        [NotNull]
-        int[] CreatePlanetsForSector();
+        void Run([NotNull] IAABBox startViewBox, [NotNull]IQuadTreeNode rootNode);
     }
 }

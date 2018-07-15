@@ -59,11 +59,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\PlayerMoveController.cs" />
+    <Compile Include="Assets\Scripts\ArrayBackgroundWorker.cs" />
     <Compile Include="Assets\Scripts\Camera.cs" />
     <Compile Include="Assets\Scripts\Constants.cs" />
     <Compile Include="Assets\Scripts\GUI\CameraController.cs" />
     <Compile Include="Assets\Scripts\GUI\CameraDebugController.cs" />
     <Compile Include="Assets\Scripts\GUI\PlayerDataController.cs" />
+    <Compile Include="Assets\Scripts\IArrayBackgroundWorker.cs" />
+    <Compile Include="Assets\Scripts\IArrayBackgroundWorkerListener.cs" />
     <Compile Include="Assets\Scripts\IBordersChangeListener.cs" />
     <Compile Include="Assets\Scripts\ICamera.cs" />
     <Compile Include="Assets\Scripts\ICameraListener.cs" />
@@ -78,6 +81,7 @@
     <Compile Include="Assets\Scripts\ISectorCreator.cs" />
     <Compile Include="Assets\Scripts\ISectorManager.cs" />
     <Compile Include="Assets\Scripts\ISegmentCreator.cs" />
+    <Compile Include="Assets\Scripts\IStartUpNodeInitializer.cs" />
     <Compile Include="Assets\Scripts\IUnityPlanetData.cs" />
     <Compile Include="Assets\Scripts\IUnityPlayer.cs" />
     <Compile Include="Assets\Scripts\IUnityVisualizer.cs" />
@@ -101,6 +105,7 @@
     <Compile Include="Assets\Scripts\SectorCreator.cs" />
     <Compile Include="Assets\Scripts\SectorManager.cs" />
     <Compile Include="Assets\Scripts\SegmentCreator.cs" />
+    <Compile Include="Assets\Scripts\StartUpNodeInitializer.cs" />
     <Compile Include="Assets\Scripts\UnityCamera.cs" />
     <Compile Include="Assets\Scripts\UnityCameraSprite.cs" />
     <Compile Include="Assets\Scripts\UnityPlanetData.cs" />
@@ -109,6 +114,7 @@
     <Compile Include="Assets\Scripts\UnityPlayer.cs" />
     <Compile Include="Assets\Scripts\UnityQuadTreeManager.cs" />
     <Compile Include="Assets\Scripts\UnitySectorManager.cs" />
+    <Compile Include="Assets\Scripts\VisibleNodesCollector.cs" />
     <Compile Include="Assets\Scripts\VisiblePlanetsProvider.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>E:/Projects/Planets/UnityPlanets/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>

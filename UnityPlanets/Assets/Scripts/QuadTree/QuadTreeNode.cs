@@ -53,4 +53,16 @@ public class QuadTreeNode : IQuadTreeNode
         mBottomLeft.VisitNodes(nodeVisitor);
         mBottomRight.VisitNodes(nodeVisitor);
     }
+
+    public void VisitVisibleNodes(IAABBox cameraBox, INodeVisitor nodeVisitor)
+    {
+        if (!mBox.IsIntersect(cameraBox))
+        {
+            return;
+        }
+        mTopLeft.VisitVisibleNodes(cameraBox, nodeVisitor);
+        mTopRight.VisitVisibleNodes(cameraBox, nodeVisitor);
+        mBottomLeft.VisitVisibleNodes(cameraBox, nodeVisitor);
+        mBottomRight.VisitVisibleNodes(cameraBox, nodeVisitor);
+    }
 }

@@ -68,9 +68,32 @@ namespace Assets.Scripts.QuadTree
             return mBox;
         }
 
+        public void SetPlanets([NotNull] int[] planetData)
+        {
+            mPlanetRawData = planetData;
+        }
+
         public void VisitNodes(INodeVisitor nodeVisitor)
         {
-            mPlanetRawData = nodeVisitor.GetPlanetData();
+            nodeVisitor.AddVisited(this);
+        }
+
+        public bool IsPlanetDataNull()
+        {
+            if (mPlanetRawData != null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public void VisitVisibleNodes(IAABBox cameraBox, INodeVisitor nodeVisitor)
+        {
+            if (!mBox.IsIntersect(cameraBox))
+            {
+                return;
+            }
+            VisitNodes(nodeVisitor);
         }
 
 

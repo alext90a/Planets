@@ -32,10 +32,10 @@ namespace Planets
         {
             mX = 0;
             mY = 0;
-            mTop = 100;
-            mBottom = 0;
-            mLeft = 0;
-            mRight = 100;
+            mTop = 50;
+            mBottom = -50;
+            mLeft = -50;
+            mRight = 50;
         }
 
 
