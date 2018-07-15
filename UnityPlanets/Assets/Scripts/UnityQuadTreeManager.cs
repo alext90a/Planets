@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts;
 using Assets.Scripts.QuadTree;
@@ -16,6 +17,9 @@ public class UnityQuadTreeManager : MonoBehaviour, IBordersChangeListener
     private IQuadTreeNode mRootNode;
     [NotNull][Inject] private readonly IUnityPlanetVisualizer mUnityPlanetVisualizer;
     public Text mLoadingProgressText;
+    public GameObject mTextHolder;
+    public Text mLoadingThreads;
+    public Text mError;
 
     [NotNull]private readonly List<PlanetData> mPlanetData = new List<PlanetData>(25);
     // Use this for initialization
@@ -23,6 +27,7 @@ public class UnityQuadTreeManager : MonoBehaviour, IBordersChangeListener
     {
         mCamera.AddBorderChangeListener(this);
         mRootNode = mStartNodeCreator.Create();
+        mLoadingThreads.text = Environment.ProcessorCount.ToString();
     }
     void Start () {
 		
@@ -31,6 +36,12 @@ public class UnityQuadTreeManager : MonoBehaviour, IBordersChangeListener
 	// Update is called once per frame
 	void Update () {
 		mLoadingProgressText.text = mStartNodeCreator.mProgress.ToString();
+	    mTextHolder.SetActive(mStartNodeCreator.mIsWorking);
+	    if (mStartNodeCreator.mError != null)
+	    {
+	        mError.text = mStartNodeCreator.mError;
+            mTextHolder.SetActive(true);
+	    }
 	}
 
     public void NewBorders(int top, int bottom, int left, int right)

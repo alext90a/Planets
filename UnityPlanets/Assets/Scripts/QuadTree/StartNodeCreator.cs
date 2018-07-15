@@ -19,6 +19,11 @@ namespace QuadTree
         [NotNull]
         private static WaitHandle[] waitHandles;
 
+        private BackgroundWorker[] mBackgroundWorkers;
+        private int mCompletedWorkers = 0;
+        public bool mIsWorking = false;
+        public string mError;
+
         [NotNull] private IQuadTreeNode[] mLoadingNodes;
 
         public int mProgress = 0;
@@ -98,7 +103,7 @@ namespace QuadTree
                             var allLeafs = CreateStartLeafs(subsectorSideSize, posX, posY);
 
                             //
-                            var startIndex1 = startIndex * allLeafs.Count;
+                            var startIndex1 = j * allLeafs.Count;
                             var endIndex1 = startIndex1 + allLeafs.Count;
                             var l = 0;
                             for (int k = startIndex1; k < endIndex1; ++k)
@@ -128,40 +133,73 @@ namespace QuadTree
             var allSubsectorsList = new List<IQuadTreeNode>(subsectors);
             allSubsectorsList.AddRange(allSubsectors);
 
-            BackgroundWorker worker = new BackgroundWorker();
-            var progressMy = 0;
-            var planetFactory = mPlanetFactoryCreator.CreatePlanetFactory();
-            worker.DoWork += delegate(object sender, DoWorkEventArgs args)
-            {
-                try
-                {
-                    var progress = 0;
-                    for (int i = 0; i < mLoadingNodes.Length; ++i)
-                    {
-                        if (mLoadingNodes[i] == null)
-                        {
-                            continue;
-                        }
-                        mLoadingNodes[i].VisitNodes(planetFactory);
-                        var floatData = ((float) i / mLoadingNodes.Length) *100f;
+            InitializeNodeLeafsInBackground();
+            return allSubsectorsList;
+        }
 
-                        worker.ReportProgress((int)floatData);
-                    }
+        private void InitializeNodeLeafsInBackground()
+        {
+            var processorCount = Environment.ProcessorCount;
+            var leafsPerProc = mLoadingNodes.Length / processorCount;
+            mBackgroundWorkers = new BackgroundWorker[processorCount];
+            mIsWorking = true;
+            for (int j = 0; j < processorCount; ++j)
+            {
+                var startIndex = j * leafsPerProc;
+                var endIndex = startIndex + leafsPerProc;
+                if (endIndex >= mLoadingNodes.Length)
+                {
+                    endIndex = mLoadingNodes.Length - 1;
                 }
-                catch (Exception e)
+                BackgroundWorker worker = new BackgroundWorker();
+                mBackgroundWorkers[j] = worker;
+                var planetFactory = mPlanetFactoryCreator.CreatePlanetFactory();
+                worker.DoWork += delegate (object sender, DoWorkEventArgs args)
                 {
                     
-                }
+                        var totalLeafs = endIndex - startIndex;
+                        for (int i = startIndex; i < endIndex; ++i)
+                        {
+                            
+                            mLoadingNodes[i].VisitNodes(planetFactory);
+                            var floatData = ((float)(i-startIndex) / totalLeafs) * 100f;
+
+                            worker.ReportProgress((int)floatData);
+                        }
+                    
+
+                };
+                worker.WorkerReportsProgress = true;
+                worker.ProgressChanged += (sender, args) => { CallBackFromLoad(sender, args); };
+                worker.RunWorkerAsync();
+                worker.RunWorkerCompleted += WorkerOnRunWorkerCompleted;
                 
-            };
-            worker.WorkerReportsProgress = true;
-            worker.ProgressChanged += (sender, args) => { CallBackFromLoad(sender, args);};
-            worker.RunWorkerAsync();
-            return allSubsectorsList;
+            }
+            
+        }
+
+        private void WorkerOnRunWorkerCompleted(object o, RunWorkerCompletedEventArgs runWorkerCompletedEventArgs)
+        {
+            if (runWorkerCompletedEventArgs.Error!= null)
+            {
+                mError = runWorkerCompletedEventArgs.Error.Message;
+            }
+            foreach (var worker in mBackgroundWorkers)
+            {
+                if (worker.IsBusy)
+                {
+                    return;
+                }
+            }
+            mIsWorking = false;
         }
 
         private void CallBackFromLoad(object sender, ProgressChangedEventArgs args)
         {
+            if (mProgress > args.ProgressPercentage)
+            {
+                return;
+            }
             mProgress = args.ProgressPercentage;
         }
 
