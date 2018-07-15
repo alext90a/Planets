@@ -13,6 +13,7 @@ public class CameraController : MonoBehaviour, ICameraListener {
     [SerializeField] private Button mIncreaseButton;
     [SerializeField] private Button mDecreaseButton;
     
+    
 
     [Inject] private readonly ICamera mCamera;
 
