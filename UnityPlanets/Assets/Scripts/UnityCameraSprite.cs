@@ -1,13 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Planets;
+﻿using JetBrains.Annotations;
 using UnityEngine;
 using Zenject;
+using Debug = System.Diagnostics.Debug;
 
 public class UnityCameraSprite : MonoBehaviour, ICameraListener
 {
-    [Inject] private IConstants mConstants;
-    [Inject] private ICamera mCamera;
+    [Inject][NotNull]
+    private readonly IConstants mConstants;
+    [Inject][NotNull]
+    private readonly ICamera mCamera;
+    [NotNull]
     private SpriteRenderer mSpriteRenderer;
     private Vector3 mSpriteStartScale;
 
@@ -15,27 +17,18 @@ public class UnityCameraSprite : MonoBehaviour, ICameraListener
     {
         
         mSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        mSpriteStartScale = mSpriteRenderer.transform.localScale;
+        Debug.Assert(mSpriteRenderer != null, "mSpriteRenderer != null");
+        if (mSpriteRenderer.transform != null)
+        {
+            mSpriteStartScale = mSpriteRenderer.transform.localScale;
+        }
         mCamera.AddListener(this);
     }
-	// Use this for initialization
-	void Start () {
-	    
-    }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void ZoomValueChanged(int zoomValue)
     {
-        if (name == "Planet01")
-        {
-            int i = 9;
-            ++i;
-        }
-        var spriteScale = mSpriteStartScale * (float)zoomValue / (float)mConstants.GetMinCameraSize();
+        var spriteScale = mSpriteStartScale * zoomValue / mConstants.GetMinCameraSize();
+        // ReSharper disable once PossibleNullReferenceException
         mSpriteRenderer.transform.localScale = spriteScale;
     }
 }

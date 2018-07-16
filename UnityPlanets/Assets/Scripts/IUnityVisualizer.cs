@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using Assets.Scripts;
+using JetBrains.Annotations;
 
-namespace Assets.Scripts
+public interface IUnityPlanetVisualizer
 {
-    public interface IUnityPlanetVisualizer
-    {
-        void Visualize(List<PlanetData> planets);
-    }
+    void Visualize([NotNull]List<PlanetData> planets);
 }

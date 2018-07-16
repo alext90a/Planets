@@ -1,10 +1,7 @@
 ﻿using JetBrains.Annotations;
 
-namespace Assets.Scripts
+public interface IPlanetFactoryCreator
 {
-    public interface IPlanetFactoryCreator
-    {
-        [NotNull]
-        IPlanetFactory CreatePlanetFactory();
-    }
+    [NotNull]
+    IPlanetFactory CreatePlanetFactory();
 }

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Assets.Scripts;
 using JetBrains.Annotations;
 using Planets;
-using QuadTree;
 
-namespace Assets.Scripts.QuadTree
+namespace QuadTree
 {
     public sealed class QuadTreeLeaf : IQuadTreeNode
     {
@@ -12,17 +10,14 @@ namespace Assets.Scripts.QuadTree
         private readonly IAABBox mBox;
         [CanBeNull]
         private int[] mPlanetRawData;
-
-        [NotNull] private readonly IConstants mConstants;
-        [NotNull] private readonly IPlayer mPlayer;
+        [NotNull]
+        private readonly IConstants mConstants;
 
         public QuadTreeLeaf([NotNull]IAABBox box
-            , [NotNull] IConstants constants
-            , [NotNull] IPlayer player)
+            , [NotNull] IConstants constants)
         {
             mBox = box;
             mConstants = constants;
-            mPlayer = player;
         }
 
         
@@ -66,9 +61,9 @@ namespace Assets.Scripts.QuadTree
         }
 
 
-
         public PlanetData GetPlanetData(int index)
         {
+            // ReSharper disable once PossibleNullReferenceException
             var data = mPlanetRawData[index];
             var score = data / mConstants.GetCellsInSector();
             var posLocal = data - score * mConstants.GetMaxPlanetScore();
@@ -79,6 +74,7 @@ namespace Assets.Scripts.QuadTree
 
         public int GetPlanetRating(int index)
         {
+            // ReSharper disable once PossibleNullReferenceException
             return mPlanetRawData[index] / mConstants.GetCellsInSector();
         }
     }

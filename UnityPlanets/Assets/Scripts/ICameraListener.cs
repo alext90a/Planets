@@ -1,8 +1,5 @@
-﻿namespace Planets
+﻿public interface ICameraListener
 {
-    public interface ICameraListener
-    {
-        void ZoomValueChanged(int zoomValue);
+    void ZoomValueChanged(int zoomValue);
         
-    }
 }

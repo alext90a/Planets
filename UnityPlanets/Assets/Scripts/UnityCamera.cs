@@ -1,34 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Assets.Scripts;
-using Assets.Scripts.QuadTree;
-using Planets;
-using QuadTree;
+﻿using JetBrains.Annotations;
 using UnityEngine;
 using Zenject;
-using Camera = UnityEngine.Camera;
 
 public class UnityCamera : MonoBehaviour, ICameraListener
 {
-    [Inject] private ICamera mPlanetCamera;
-
-    private Camera mCamera;
+    [Inject][NotNull]
+    private ICamera mPlanetCamera;
+    [NotNull]
+    private UnityEngine.Camera mCamera;
 
 
     void Awake()
     {
-        mCamera = GetComponent<Camera>();
+        mCamera = GetComponent<UnityEngine.Camera>();
         mPlanetCamera.AddListener(this);
     }
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void ZoomValueChanged(int zoomValue)
     {

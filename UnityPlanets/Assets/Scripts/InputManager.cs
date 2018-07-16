@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Assets.Scripts;
+﻿using Assets.Scripts;
 using JetBrains.Annotations;
 using Planets;
 using UnityEngine;
@@ -8,12 +6,14 @@ using Zenject;
 
 public class InputManager : MonoBehaviour, IZoomBlockerListener
 {
-    [Inject][NotNull]private IPlayer mPlayer;
-
-    [Inject] [NotNull] private IUnityPlayer mUnityPlayer;
-    [Inject] [NotNull] private readonly IZoomBlocker mZoomBlocker;
-
-    [Inject] [NotNull] private ICamera mCamera;
+    [Inject][NotNull]
+    private readonly IPlayer mPlayer;
+    [Inject] [NotNull]
+    private readonly IUnityPlayer mUnityPlayer;
+    [Inject] [NotNull]
+    private readonly IZoomBlocker mZoomBlocker;
+    [Inject] [NotNull]
+    private readonly ICamera mCamera;
     private bool mIsZoomBlocked = false;
 
     void Awake()

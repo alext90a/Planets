@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Assets.Scripts
+﻿public interface IPlayerListener
 {
-    public interface IPlayerListener
-    {
-        void PositionCanged(int posX, int posY);
-    }
+    void PositionCanged(int posX, int posY);
 }

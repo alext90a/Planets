@@ -1,56 +1,62 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Assets.Scripts;
-using Planets;
+using JetBrains.Annotations;
 using UnityEngine;
 using Zenject;
 
 public class UnityPlanetVisualizer : MonoBehaviour, IUnityPlanetVisualizer
 {
-
-    [Inject] private readonly IConstants mConstants;
-    [Inject] private readonly ICamera mCamera;
-    [Inject] private readonly UnityPlanetDataFactory mPlanetDataFactory;
-
-
-    private List<IUnityPlanetData> mPlanets = new List<IUnityPlanetData>();
+    [Inject][NotNull]
+    private readonly IConstants mConstants;
+    [Inject]
+    [NotNull]
+    private readonly ICamera mCamera;
+    [Inject][NotNull]
+    private readonly UnityPlanetDataFactory mPlanetDataFactory;
+    [NotNull]
+    private List<IUnityPlanetData> mPlanets;
     
     private void Awake()
     {
-        var child = transform.GetChild(0).gameObject;
-        //child.SetActive(false);
-        //mPlanets.Add(child);
-        for (int i = 0; i < mConstants.GetPlanetsToVisualize(); ++i)
+        mPlanets = new List<IUnityPlanetData>(mConstants.GetPlanetsToVisualize());
+        if (transform != null)
         {
-            var planet = mPlanetDataFactory.Create().gameObject;
-            planet.transform.parent = transform;
-            planet.SetActive(false);
-            mPlanets.Add(planet.GetComponent<IUnityPlanetData>());
-
+            var chilObject = transform.GetChild(0);
+            if (chilObject != null)
+            {
+                var child = chilObject.gameObject;
+                for (int i = 0; i < mConstants.GetPlanetsToVisualize(); ++i)
+                {
+                    var planet = mPlanetDataFactory.Create().gameObject;
+                    if (planet != null)
+                    {
+                        if (planet.transform != null)
+                        {
+                            planet.transform.parent = transform;
+                        }
+                        planet.SetActive(false);
+                        mPlanets.Add(planet.GetComponent<IUnityPlanetData>());
+                    }
+                }
+                if (child != null)
+                {
+                    child.SetActive(false);
+                }
+            }
         }
-        child.SetActive(false);
-        
     }
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void Visualize(List<PlanetData> planets)
     {
         for (int i = 0; i < mPlanets.Count; ++i)
         {
+            // ReSharper disable once PossibleNullReferenceException
             mPlanets[i].Deactivate();
         }
 
         for(int i= 0; i < planets.Count; ++i)
         {
+            // ReSharper disable once PossibleNullReferenceException
             mPlanets[i].Activate(planets[i]);
         }
     }

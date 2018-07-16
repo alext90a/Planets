@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Threading;
-using System.Threading.Tasks;
 using Assets.Scripts;
-using Assets.Scripts.QuadTree;
-using Boo.Lang.Runtime.DynamicDispatching;
 using JetBrains.Annotations;
 using Planets;
 
@@ -13,22 +9,20 @@ namespace QuadTree
 {
     public sealed class StartNodeCreator
     {
-        [NotNull] private readonly IConstants mConstants;
-        [NotNull] private readonly IPlayer mPlayer;
-        [NotNull] private readonly IPlanetFactoryCreator mPlanetFactoryCreator;
+        [NotNull]
+        private readonly IConstants mConstants;
+        [NotNull]
+        private readonly IPlayer mPlayer;
         [NotNull]
         private static WaitHandle[] waitHandles;
+        [NotNull]
+        private IQuadTreeNode[] mLoadingNodes;
 
         
-
-        [NotNull] private IQuadTreeNode[] mLoadingNodes;
-
-        
-        public StartNodeCreator([NotNull] IConstants constants, [NotNull] IPlayer player, [NotNull] IPlanetFactoryCreator planetFactoryCreator)
+        public StartNodeCreator([NotNull] IConstants constants, [NotNull] IPlayer player)
         {
             mConstants = constants;
             mPlayer = player;
-            mPlanetFactoryCreator = planetFactoryCreator;
         }
 
         [NotNull]
@@ -43,7 +37,6 @@ namespace QuadTree
             }
             IQuadTreeNode rootNode;
 
-            var planetDataProvider = mPlanetFactoryCreator.CreatePlanetFactory();
             if (levels > 0)
             {
                 var allSubsectorsList = CreateQuadTreeNodesOnMultithreds(segmentSize);
@@ -51,7 +44,7 @@ namespace QuadTree
             }
             else
             {
-                rootNode = new QuadTreeLeaf(new AABBox(0f, 0f, segmentSize, segmentSize), mConstants, mPlayer);
+                rootNode = new QuadTreeLeaf(new AABBox(0f, 0f, segmentSize, segmentSize), mConstants);
             }
             return rootNode;
         }
@@ -117,6 +110,7 @@ namespace QuadTree
                     {
 
                     }
+                    // ReSharper disable once PossibleNullReferenceException
                     are.Set();
                 });
                 ThreadPool.QueueUserWorkItem(waitCallback, waitHandles[i]);
@@ -126,11 +120,6 @@ namespace QuadTree
             allSubsectorsList.AddRange(allSubsectors);
             return allSubsectorsList;
         }
-
-        
-
-        
-
 
         [NotNull]
         private List<IQuadTreeNode> CreateStartLeafs(int segmentSideSize, float segmentX, float segmentY)
@@ -149,7 +138,7 @@ namespace QuadTree
                 y = segmentY + segmentHalfSize - y * mConstants.GetSectorSideSize() - sectorHalfSize;
                 
                 var box = new AABBox(x, y, mConstants.GetSectorSideSize(), mConstants.GetSectorSideSize());
-                sectorStore.Add(new QuadTreeLeaf(box, mConstants, mPlayer));
+                sectorStore.Add(new QuadTreeLeaf(box, mConstants));
             }
             return sectorStore;
         }

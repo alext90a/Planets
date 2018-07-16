@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts;
-using Assets.Scripts.QuadTree;
 using JetBrains.Annotations;
-using Planets;
 using QuadTree;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,24 +9,39 @@ using Zenject;
 
 public class UnityQuadTreeManager : MonoBehaviour, IBordersChangeListener, IArrayBackgroundWorkerListener,IZoomBlocker
 {
-    [NotNull][Inject] private readonly ICamera mCamera;
-    [NotNull][Inject] private readonly StartNodeCreator mStartNodeCreator;
+    [NotNull][Inject]
+    private readonly ICamera mCamera;
+    [NotNull][Inject]
+    private readonly StartNodeCreator mStartNodeCreator;
+    [NotNull]
     private IQuadTreeNode mRootNode;
-    [NotNull][Inject] private readonly IUnityPlanetVisualizer mUnityPlanetVisualizer;
-    [NotNull] [Inject] private readonly StartUpNodeInitializer mStartupNodeInitializer;
-    [NotNull] [Inject] private readonly IArrayBackgroundWorker mBackgroundWorker;
-    [NotNull] [Inject] private readonly List<IZoomBlockerListener> mZoomBlockerListeners = new List<IZoomBlockerListener>();
-    [NotNull] [Inject] private readonly IPlayer mPlayer;
-    [NotNull] [Inject] private readonly IConstants mConstants;
+    [NotNull][Inject]
+    private readonly IUnityPlanetVisualizer mUnityPlanetVisualizer;
+    [NotNull] [Inject]
+    private readonly StartUpNodeInitializer mStartupNodeInitializer;
+    [NotNull] [Inject]
+    private readonly IArrayBackgroundWorker mBackgroundWorker;
+    [NotNull] [Inject]
+    private readonly List<IZoomBlockerListener> mZoomBlockerListeners = new List<IZoomBlockerListener>();
+    [NotNull] [Inject]
+    private readonly IPlayer mPlayer;
+    [NotNull] [Inject]
+    private readonly IConstants mConstants;
+    [NotNull]
     public Text mLoadingProgressText;
+    [NotNull]
     public GameObject mTextHolder;
+    [NotNull]
     public Text mLoadingThreads;
+    [NotNull]
     public Text mError;
+    [NotNull]
+    private List<PlanetData> mPlanetData;
 
-    [NotNull]private readonly List<PlanetData> mPlanetData = new List<PlanetData>(25);
     // Use this for initialization
     void Start()
     {
+        mPlanetData = new List<PlanetData>(mConstants.GetMinCameraSize() * mConstants.GetMinCameraSize());
         BlockZoom();
         mCamera.AddBorderChangeListener(this);
         mRootNode = mStartNodeCreator.Create();
@@ -76,6 +88,7 @@ public class UnityQuadTreeManager : MonoBehaviour, IBordersChangeListener, IArra
     {
         foreach (var curListener in mZoomBlockerListeners)
         {
+            // ReSharper disable once PossibleNullReferenceException
             curListener.OnZoomBlocked();
         }
     }
@@ -84,6 +97,7 @@ public class UnityQuadTreeManager : MonoBehaviour, IBordersChangeListener, IArra
     {
         foreach (var curListener in mZoomBlockerListeners)
         {
+            // ReSharper disable once PossibleNullReferenceException
             curListener.OnZoomUnblocked();
         }
     }

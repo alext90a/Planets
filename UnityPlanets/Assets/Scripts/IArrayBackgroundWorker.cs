@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assets.Scripts.QuadTree;
+﻿using System.Collections.Generic;
+using Assets.Scripts;
 using JetBrains.Annotations;
+using QuadTree;
 
-namespace Assets.Scripts
+public interface IArrayBackgroundWorker
 {
-    public interface IArrayBackgroundWorker
-    {
-        void AddListener([NotNull] IArrayBackgroundWorkerListener listener);
-        void Run([NotNull]IReadOnlyList<QuadTreeLeaf> mLoadingNodes, [NotNull]IPlanetFactoryCreator planetFactoryCreator);
-    }
+    void AddListener([NotNull] IArrayBackgroundWorkerListener listener);
+    void Run([NotNull]IReadOnlyList<QuadTreeLeaf> loadingNodes, [NotNull]IPlanetFactoryCreator planetFactoryCreator);
 }

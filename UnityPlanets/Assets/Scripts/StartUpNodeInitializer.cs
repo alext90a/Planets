@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Assets.Scripts.QuadTree;
 using JetBrains.Annotations;
 using Planets;
 using QuadTree;
@@ -38,6 +37,7 @@ namespace Assets.Scripts
             var planetFactory = mPlanetFactoryCreator.CreatePlanetFactory();
             foreach (var curLeaf in visibleNodesCollector.GetVisibleLeaves())
             {
+                // ReSharper disable once PossibleNullReferenceException
                 curLeaf.SetPlanets(planetFactory.CreatePlanetsForSector());    
             }
 

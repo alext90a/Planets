@@ -15,7 +15,7 @@ public class ProjectInstaller : MonoInstaller<ProjectInstaller>
     {
 
         Container.Bind<IPlayer>().To<Player>().AsSingle();
-        Container.Bind<ICamera>().To<Planets.Camera>().AsSingle();
+        Container.Bind<ICamera>().To<Camera>().AsSingle();
         //Container.Bind<IConstants>().To<Planets.Constants>().AsSingle();
         //Container.Bind<ISectorManager>().To<SectorManager>().AsSingle();
         //Container.Bind<ISectorCreator>().To<SectorCreator>().AsSingle();

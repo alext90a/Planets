@@ -1,20 +1,14 @@
 ﻿using Assets.Scripts;
-using Assets.Scripts.QuadTree;
+using Planets;
+using QuadTree;
 
-namespace Planets
+public interface ICamera : IPlayerListener, IAABBox
 {
-    public interface ICamera : IPlayerListener, IAABBox
-    {
-        int GetTop();
-        int GetLeft();
-        int GetBottom();
-        int GetRight();
-        void IncreaseZoom();
-        void DecreaseZoom();
-        int GetMaxZoom();
-        int GetMinZoom();
-        int GetZoom();
-        void AddListener(ICameraListener listener);
-        void AddBorderChangeListener(IBordersChangeListener listener);
-    }
+    void IncreaseZoom();
+    void DecreaseZoom();
+    int GetMaxZoom();
+    int GetMinZoom();
+    int GetZoom();
+    void AddListener(ICameraListener listener);
+    void AddBorderChangeListener(IBordersChangeListener listener);
 }

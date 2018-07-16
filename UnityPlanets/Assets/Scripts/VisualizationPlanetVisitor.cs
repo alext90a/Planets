@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.Scripts.QuadTree;
 using JetBrains.Annotations;
 using Planets;
+using QuadTree;
 
 namespace Assets.Scripts
 {

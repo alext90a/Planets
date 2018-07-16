@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Boo.Lang.Environments;
 
-namespace Assets.Scripts.QuadTree
+namespace QuadTree
 {
     public sealed class AABBox : IAABBox
     {
@@ -20,14 +15,6 @@ namespace Assets.Scripts.QuadTree
             mY = y;
             mWidth = width;
             mHeight = height;
-        }
-
-        public AABBox(int left, int top, int right, int bottom)
-        {
-            mX = left + (right - left) / 2f;
-            mY = bottom + (top - bottom) / 2f;
-            mWidth = right - left;
-            mHeight = top - bottom;
         }
 
         public float GetX()

@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.QuadTree;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 
 namespace QuadTree
 {
