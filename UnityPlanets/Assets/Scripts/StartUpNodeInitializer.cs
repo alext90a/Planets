@@ -30,7 +30,7 @@ namespace Assets.Scripts
             mBackgroundWorker = backgroundWorker;
         }
 
-        public void Run(IAABBox startViewBox, IQuadTreeNode rootNode)
+        public void Run(IAABBox startViewBox, IQuadTreeNode rootNode, IArrayBackgroundWorkerListener listener)
         {
             var visibleNodesCollector = new VisibleNodesCollector();
             rootNode.VisitVisibleNodes(startViewBox, visibleNodesCollector);
@@ -43,7 +43,7 @@ namespace Assets.Scripts
             var nodesInCameraCollector = new VisibleNodesCollector();
             rootNode.VisitVisibleNodes(new AABBox(0f,0f, mConstants.GetMaxCameraSize(), mConstants.GetMaxCameraSize()), nodesInCameraCollector);
             
-            
+            mBackgroundWorker.AddListener(listener);
             mBackgroundWorker.Run(nodesInCameraCollector.GetVisibleLeaves(), mPlanetFactoryCreator);
         }
 

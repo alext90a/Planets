@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class UnityQuadTreeManager : MonoBehaviour, IBordersChangeListener, IArrayBackgroundWorkerListener
+public class UnityQuadTreeManager : MonoBehaviour, IBordersChangeListener, IArrayBackgroundWorkerListener,IZoomBlocker
 {
     [NotNull][Inject] private readonly ICamera mCamera;
     [NotNull][Inject] private readonly StartNodeCreator mStartNodeCreator;
@@ -18,6 +18,8 @@ public class UnityQuadTreeManager : MonoBehaviour, IBordersChangeListener, IArra
     [NotNull][Inject] private readonly IUnityPlanetVisualizer mUnityPlanetVisualizer;
     [NotNull] [Inject] private readonly StartUpNodeInitializer mStartupNodeInitializer;
     [NotNull] [Inject] private readonly IArrayBackgroundWorker mBackgroundWorker;
+    [NotNull] [Inject] private readonly List<IZoomBlockerListener> mZoomBlockerListeners = new List<IZoomBlockerListener>();
+    [NotNull] [Inject] private readonly IPlayer mPlayer;
     public Text mLoadingProgressText;
     public GameObject mTextHolder;
     public Text mLoadingThreads;
@@ -25,13 +27,14 @@ public class UnityQuadTreeManager : MonoBehaviour, IBordersChangeListener, IArra
 
     [NotNull]private readonly List<PlanetData> mPlanetData = new List<PlanetData>(25);
     // Use this for initialization
-    void Awake()
+    void Start()
     {
+        BlockZoom();
         mCamera.AddBorderChangeListener(this);
         mRootNode = mStartNodeCreator.Create();
-        mBackgroundWorker.AddListener(this);
         mLoadingThreads.text = Environment.ProcessorCount.ToString();
-        mStartupNodeInitializer.Run(mCamera, mRootNode);
+        mStartupNodeInitializer.Run(mCamera, mRootNode, this);
+        mPlayer.MoveRight();
     }
 
     public void NewBorders(int top, int bottom, int left, int right)
@@ -49,6 +52,7 @@ public class UnityQuadTreeManager : MonoBehaviour, IBordersChangeListener, IArra
     public void OnFinished()
     {
         mTextHolder.SetActive(false);
+        UnblockZoom();
     }
 
     public void OnException(string message)
@@ -57,5 +61,26 @@ public class UnityQuadTreeManager : MonoBehaviour, IBordersChangeListener, IArra
         mError.text = message;
         mTextHolder.SetActive(true);
 
+    }
+
+    public void AddListener(IZoomBlockerListener listener)
+    {
+        mZoomBlockerListeners.Add(listener);
+    }
+
+    public void BlockZoom()
+    {
+        foreach (var curListener in mZoomBlockerListeners)
+        {
+            curListener.OnZoomBlocked();
+        }
+    }
+
+    public void UnblockZoom()
+    {
+        foreach (var curListener in mZoomBlockerListeners)
+        {
+            curListener.OnZoomUnblocked();
+        }
     }
 }

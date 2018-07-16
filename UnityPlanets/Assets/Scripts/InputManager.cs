@@ -1,18 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts;
+using JetBrains.Annotations;
 using Planets;
 using UnityEngine;
 using Zenject;
 
-public class InputManager : MonoBehaviour
+public class InputManager : MonoBehaviour, IZoomBlockerListener
 {
     [Inject]
     private IPlayer mPlayer;
 
     [Inject] private IUnityPlayer mUnityPlayer;
+    [Inject] [NotNull] private readonly IZoomBlocker mZoomBlocker;
 
     [Inject] private ICamera mCamera;
+    private bool mIsZoomBlocked = false;
+
+    void Awake()
+    {
+        mZoomBlocker.AddListener(this);
+    }
+
 	// Use this for initialization
 	void Start () {
 		mPlayer.AddListener(mUnityPlayer);
@@ -38,14 +47,28 @@ public class InputManager : MonoBehaviour
 	    {
 	        mPlayer.MoveTop();
 	    }
-	    if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+	    if (!mIsZoomBlocked)
 	    {
-	        mCamera.IncreaseZoom();
-	    }
+	        if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+	        {
+	            mCamera.IncreaseZoom();
+	        }
 
-	    if (Input.GetAxis("Mouse ScrollWheel") < 0f)
-	    {
-	        mCamera.DecreaseZoom();
-	    }
+	        if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+	        {
+	            mCamera.DecreaseZoom();
+	        }
+        }
+	    
+    }
+
+    public void OnZoomBlocked()
+    {
+        mIsZoomBlocked = true;
+    }
+
+    public void OnZoomUnblocked()
+    {
+        mIsZoomBlocked = false;
     }
 }

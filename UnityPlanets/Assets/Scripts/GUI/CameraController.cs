@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts;
 using Planets;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class CameraController : MonoBehaviour, ICameraListener {
+public class CameraController : MonoBehaviour, ICameraListener, IZoomBlockerListener
+{
 
+    [SerializeField] private GameObject mZoomControlHolder;
     [SerializeField] private Text mZoomText;
     [SerializeField] private Text mZoomText2;
     [SerializeField] private Slider mSlider;
@@ -16,6 +19,12 @@ public class CameraController : MonoBehaviour, ICameraListener {
     
 
     [Inject] private readonly ICamera mCamera;
+    [Inject] private readonly IZoomBlocker mZoomBlocker;
+
+    void Awake()
+    {
+        mZoomBlocker.AddListener(this);
+    }
 
     // Use this for initialization
     void Start () {
@@ -49,5 +58,15 @@ public class CameraController : MonoBehaviour, ICameraListener {
     private void DecreaseZoom()
     {
         mCamera.DecreaseZoom();
+    }
+
+    public void OnZoomBlocked()
+    {
+        mZoomControlHolder.SetActive(false);
+    }
+
+    public void OnZoomUnblocked()
+    {
+        mZoomControlHolder.SetActive(true);
     }
 }

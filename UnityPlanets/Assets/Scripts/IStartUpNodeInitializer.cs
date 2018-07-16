@@ -10,6 +10,6 @@ namespace Assets.Scripts
 {
     public interface IStartUpNodeInitializer
     {
-        void Run([NotNull] IAABBox startViewBox, [NotNull]IQuadTreeNode rootNode);
+        void Run([NotNull] IAABBox startViewBox, [NotNull]IQuadTreeNode rootNode, [NotNull]IArrayBackgroundWorkerListener listener);
     }
 }

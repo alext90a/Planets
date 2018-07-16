@@ -87,6 +87,8 @@
     <Compile Include="Assets\Scripts\IUnityPlayer.cs" />
     <Compile Include="Assets\Scripts\IUnityVisualizer.cs" />
     <Compile Include="Assets\Scripts\IVisiblePlanetsProvider.cs" />
+    <Compile Include="Assets\Scripts\IZoomBlocker.cs" />
+    <Compile Include="Assets\Scripts\IZoomBlockerListener.cs" />
     <Compile Include="Assets\Scripts\PlanetComparer.cs" />
     <Compile Include="Assets\Scripts\PlanetData.cs" />
     <Compile Include="Assets\Scripts\PlanetFactory.cs" />
