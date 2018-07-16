@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Threading;
 using Assets.Scripts;
@@ -15,6 +16,8 @@ namespace QuadTree
         private readonly IPlayer mPlayer;
         [NotNull]
         private static WaitHandle[] waitHandles;
+        [NotNull]
+        private static Exception[] exceptions;
         [NotNull]
         private IQuadTreeNode[] mLoadingNodes;
 
@@ -54,6 +57,7 @@ namespace QuadTree
         {
             var processorCount = Environment.ProcessorCount;
             waitHandles = new WaitHandle[processorCount];
+            exceptions = new Exception[processorCount];
             var subsectors = 1;
             var subsectorSideSize = segmentSize;
             var subSectorsInRaw = 1;
@@ -77,6 +81,7 @@ namespace QuadTree
             {
                 var startIndex = i * subsectorsPerProc;
                 var endIndex = startIndex + subsectorsPerProc;
+                var excIndex = i;
                 waitHandles[i] = new AutoResetEvent(false);
                 var waitCallback = new WaitCallback((Object state) =>
                 {
@@ -108,14 +113,23 @@ namespace QuadTree
                     }
                     catch (Exception e)
                     {
-
+                        exceptions[excIndex] = e;
                     }
                     // ReSharper disable once PossibleNullReferenceException
                     are.Set();
                 });
                 ThreadPool.QueueUserWorkItem(waitCallback, waitHandles[i]);
+                
             }
+            
             WaitHandle.WaitAll(waitHandles);
+            for (int i = 0; i < exceptions.Length; ++i)
+            {
+                if (exceptions[i] != null)
+                {
+                    throw exceptions[i];
+                }
+            }
             var allSubsectorsList = new List<IQuadTreeNode>(subsectors);
             allSubsectorsList.AddRange(allSubsectors);
             return allSubsectorsList;

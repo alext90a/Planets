@@ -41,6 +41,7 @@ public class UnityQuadTreeManager : MonoBehaviour, IBordersChangeListener, IArra
     // Use this for initialization
     void Start()
     {
+        Application.logMessageReceived += ApplicationOnLogMessageReceived;
         mPlanetData = new List<PlanetData>(mConstants.GetMinCameraSize() * mConstants.GetMinCameraSize());
         BlockZoom();
         mCamera.AddBorderChangeListener(this);
@@ -48,6 +49,14 @@ public class UnityQuadTreeManager : MonoBehaviour, IBordersChangeListener, IArra
         mLoadingThreads.text = Environment.ProcessorCount.ToString();
         mStartupNodeInitializer.Run(mCamera, mRootNode, this);
         mPlayer.MoveRight();
+    }
+
+    private void ApplicationOnLogMessageReceived(string condition, string stackTrace, LogType type)
+    {
+        if (type == LogType.Exception)
+        {
+            mError.text = condition + stackTrace;
+        }
     }
 
     public void NewBorders(int top, int bottom, int left, int right)
