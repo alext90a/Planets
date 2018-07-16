@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts;
+using JetBrains.Annotations;
 using Planets;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,12 +9,12 @@ using Zenject;
 
 public class PlayerDataController : MonoBehaviour, IPlayerListener
 {
-    [SerializeField] private Text mTextX;
-    [SerializeField] private Text mTextY;
-    [SerializeField] private Text mScore;
+    [SerializeField] [NotNull] private Text mTextX;
+    [SerializeField] [NotNull] private Text mTextY;
+    [SerializeField] [NotNull] private Text mScore;
     
 
-    [Inject] private readonly IPlayer mPlayer;
+    [Inject] [NotNull] private readonly IPlayer mPlayer;
 	// Use this for initialization
 	void Start () {
 		mPlayer.AddListener(this);

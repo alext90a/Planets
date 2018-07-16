@@ -2,6 +2,7 @@
 using Assets.Scripts;
 using Assets.Scripts.QuadTree;
 using JetBrains.Annotations;
+using QuadTree;
 
 public class QuadTreeNode : IQuadTreeNode
 {
@@ -28,19 +29,7 @@ public class QuadTreeNode : IQuadTreeNode
         mBottomLeft = bottomLeft;
         mBottomRight = bottomRight;
     }
-
-    public void GetVisiblePlanets(IAABBox cameraBox, List<PlanetData> visiblePlanets)
-    {
-        if (!mBox.IsIntersect(cameraBox))
-        {
-            return;
-        }
-        mTopLeft.GetVisiblePlanets(cameraBox, visiblePlanets);
-        mTopRight.GetVisiblePlanets(cameraBox, visiblePlanets);
-        mBottomLeft.GetVisiblePlanets(cameraBox, visiblePlanets);
-        mBottomRight.GetVisiblePlanets(cameraBox, visiblePlanets);
-    }
-
+    
     public IAABBox GetAABBox()
     {
         return mBox;

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Assets.Scripts.QuadTree;
 using JetBrains.Annotations;
 using Planets;
+using QuadTree;
 
 namespace Assets.Scripts
 {

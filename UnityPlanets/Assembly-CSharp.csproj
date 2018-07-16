@@ -106,7 +106,6 @@
     <Compile Include="Assets\Scripts\QuadTree\StartNodeCreator.cs" />
     <Compile Include="Assets\Scripts\Sector.cs" />
     <Compile Include="Assets\Scripts\SectorCreator.cs" />
-    <Compile Include="Assets\Scripts\SectorManager.cs" />
     <Compile Include="Assets\Scripts\SegmentCreator.cs" />
     <Compile Include="Assets\Scripts\StartUpNodeInitializer.cs" />
     <Compile Include="Assets\Scripts\UnityCamera.cs" />
@@ -116,9 +115,7 @@
     <Compile Include="Assets\Scripts\UnityPlanetVisualizer.cs" />
     <Compile Include="Assets\Scripts\UnityPlayer.cs" />
     <Compile Include="Assets\Scripts\UnityQuadTreeManager.cs" />
-    <Compile Include="Assets\Scripts\UnitySectorManager.cs" />
     <Compile Include="Assets\Scripts\VisibleNodesCollector.cs" />
-    <Compile Include="Assets\Scripts\VisiblePlanetsProvider.cs" />
     <Compile Include="Assets\Scripts\VisualizationPlanetVisitor.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>E:/Projects/Planets/UnityPlanets/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>

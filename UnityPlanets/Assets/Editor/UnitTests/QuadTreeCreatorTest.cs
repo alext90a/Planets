@@ -22,8 +22,6 @@ public sealed class QuadTreeCreatorTest
 
         var cameraBox = new AABBox(0f, 0f, 100f, 100f);
         var visiblePlanets = new List<PlanetData>();
-        rootNode.GetVisiblePlanets(cameraBox, visiblePlanets);
-
         Assert.AreEqual(constants.GetPlanetsToVisualize(), visiblePlanets.Count);
     }
 
@@ -40,7 +38,6 @@ public sealed class QuadTreeCreatorTest
         var visiblePlanets2 = new List<PlanetData>();
         var cameraBox = new AABBox(0f, 0f, 100f, 100f);
         var visiblePlanets = new List<PlanetData>();
-        var visiblePlanetProvider = new VisiblePlanetsProvider(camera, constants, player);
 
         var timeNodeCreator = Stopwatch.StartNew();
         var quadCreator = new StartNodeCreator(constants, player, planetFactoryCreator);
@@ -55,11 +52,9 @@ public sealed class QuadTreeCreatorTest
 
 
         var timerTreeSearcher = Stopwatch.StartNew();
-        rootNode.GetVisiblePlanets(cameraBox, visiblePlanets);
         timerTreeSearcher.Stop();
 
         var timerSegmentSearcher = Stopwatch.StartNew();
-        visiblePlanetProvider.GetVisiblePlanets(visiblePlanets2, allSectors);
         timerSegmentSearcher.Stop();
         
         

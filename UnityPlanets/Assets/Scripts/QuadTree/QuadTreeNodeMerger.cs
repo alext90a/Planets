@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using QuadTree;
 
 namespace Assets.Scripts.QuadTree
 {
@@ -37,6 +38,7 @@ namespace Assets.Scripts.QuadTree
                 var topRight = mergedNodes[index + 1];
                 var bottomLeft = mergedNodes[index + startRawSize];
                 var bottomRight = mergedNodes[index + startRawSize + 1];
+                // ReSharper disable once PossibleNullReferenceException
                 var topLeftBox = topLeft.GetAABBox();
                 var box = new AABBox(topLeftBox.GetX() + topLeftBox.GetWidth() / 2f
                     , topLeftBox.GetY() - topLeftBox.GetHeight() / 2f

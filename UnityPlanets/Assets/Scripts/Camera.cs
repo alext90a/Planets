@@ -2,8 +2,7 @@
 using Assets.Scripts;
 using Assets.Scripts.QuadTree;
 using Boo.Lang;
-using QuadTree;
-using Zenject;
+using JetBrains.Annotations;
 
 namespace Planets
 {
@@ -12,6 +11,7 @@ namespace Planets
         private int mX;
         private int mY;
         private float mScale = 1f;
+        [NotNull]
         private List<int> mZoomValues = new List<int>(){5, 10, 100, 1000, 10000};
         private int mZoomInd = 0;
 
@@ -22,8 +22,9 @@ namespace Planets
 
         private int mPlayerX;
         private int mPlayerY;
-
+        [NotNull]
         private List<ICameraListener> mListeners = new List<ICameraListener>();
+        [NotNull]
         private List<IBordersChangeListener> mBorderListeners = new List<IBordersChangeListener>();
 
         
@@ -88,6 +89,7 @@ namespace Planets
             int zoomValue = mZoomValues[mZoomInd];
             for (int i = 0; i < mListeners.Count; ++i)
             {
+                // ReSharper disable once PossibleNullReferenceException
                 mListeners[i].ZoomValueChanged(zoomValue);
             }
         }
@@ -149,6 +151,7 @@ namespace Planets
 
             for (int i = 0; i < mBorderListeners.Count; ++i)
             {
+                // ReSharper disable once PossibleNullReferenceException
                 mBorderListeners[i].NewBorders(mTop, mBottom, mLeft, mRight);
             }
         }

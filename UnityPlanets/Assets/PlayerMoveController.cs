@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using Planets;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
+// ReSharper disable NotNullMemberIsNotInitialized
 
 public class PlayerMoveController : MonoBehaviour {
 
@@ -21,7 +21,8 @@ public class PlayerMoveController : MonoBehaviour {
     [Inject] private readonly IPlayer mPlayer;
 
     // Use this for initialization
-    void Start ()
+    [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
+    private void Start ()
     {
 	    mUpButton.onClick.AddListener(UpClicked);	
         mDownButton.onClick.AddListener(DownClicked);

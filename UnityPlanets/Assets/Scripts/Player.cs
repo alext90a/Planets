@@ -9,6 +9,7 @@ namespace Planets
     {
         private int mX = 0;
         private int mY = 0;
+        [NotNull]
         private List<IPlayerListener> mPlayerListeners = new List<IPlayerListener>();
         [Inject] [NotNull] private readonly IConstants mConstants;
 
@@ -63,6 +64,7 @@ namespace Planets
         {
             for (int i = 0; i < mPlayerListeners.Count; ++i)
             {
+                // ReSharper disable once PossibleNullReferenceException
                 mPlayerListeners[i].PositionCanged(mX, mY);
             }
         }

@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace Planets
 {
     public class PlanetComparer : IComparer<int>
     {
+        [NotNull]
         private readonly int mPlayerScore;
+        [NotNull]
         private readonly IConstants mConstants;
 
-        public PlanetComparer(IPlayer player, IConstants constants)
+        public PlanetComparer([NotNull]IPlayer player, [NotNull]IConstants constants)
         {
             mPlayerScore = player.Score;
             mConstants = constants;

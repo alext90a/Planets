@@ -63,8 +63,6 @@
     <Compile Include="Assets\Editor\UnitTests\SectorMock.cs" />
     <Compile Include="Assets\Editor\UnitTests\SectorTests.cs" />
     <Compile Include="Assets\Editor\UnitTests\SegmentCreatorMock.cs" />
-    <Compile Include="Assets\Editor\UnitTests\SegmentManagerTest.cs" />
-    <Compile Include="Assets\Editor\UnitTests\VisiblePlanetProviderTest.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>E:/Projects/Planets/UnityPlanets/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

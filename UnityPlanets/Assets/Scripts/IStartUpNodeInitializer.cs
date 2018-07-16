@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Assets.Scripts.QuadTree;
 using JetBrains.Annotations;
+using QuadTree;
 
 namespace Assets.Scripts
 {

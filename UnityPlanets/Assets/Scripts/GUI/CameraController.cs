@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Assets.Scripts;
+using JetBrains.Annotations;
 using Planets;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,17 +11,17 @@ using Zenject;
 public class CameraController : MonoBehaviour, ICameraListener, IZoomBlockerListener
 {
 
-    [SerializeField] private GameObject mZoomControlHolder;
-    [SerializeField] private Text mZoomText;
-    [SerializeField] private Text mZoomText2;
-    [SerializeField] private Slider mSlider;
-    [SerializeField] private Button mIncreaseButton;
-    [SerializeField] private Button mDecreaseButton;
+    [SerializeField] [NotNull] private GameObject mZoomControlHolder;
+    [SerializeField] [NotNull] private Text mZoomText;
+    [SerializeField] [NotNull] private Text mZoomText2;
+    [SerializeField] [NotNull] private Slider mSlider;
+    [SerializeField] [NotNull] private Button mIncreaseButton;
+    [SerializeField] [NotNull] private Button mDecreaseButton;
     
     
 
-    [Inject] private readonly ICamera mCamera;
-    [Inject] private readonly IZoomBlocker mZoomBlocker;
+    [Inject][NotNull] private readonly ICamera mCamera;
+    [Inject][NotNull] private readonly IZoomBlocker mZoomBlocker;
 
     void Awake()
     {
@@ -27,6 +29,7 @@ public class CameraController : MonoBehaviour, ICameraListener, IZoomBlockerList
     }
 
     // Use this for initialization
+    [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
     void Start () {
 		mCamera.AddListener(this);
         mSlider.maxValue = mCamera.GetMaxZoom();

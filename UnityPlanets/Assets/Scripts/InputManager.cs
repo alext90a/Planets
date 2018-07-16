@@ -8,13 +8,12 @@ using Zenject;
 
 public class InputManager : MonoBehaviour, IZoomBlockerListener
 {
-    [Inject]
-    private IPlayer mPlayer;
+    [Inject][NotNull]private IPlayer mPlayer;
 
-    [Inject] private IUnityPlayer mUnityPlayer;
+    [Inject] [NotNull] private IUnityPlayer mUnityPlayer;
     [Inject] [NotNull] private readonly IZoomBlocker mZoomBlocker;
 
-    [Inject] private ICamera mCamera;
+    [Inject] [NotNull] private ICamera mCamera;
     private bool mIsZoomBlocked = false;
 
     void Awake()
