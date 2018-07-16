@@ -14,7 +14,7 @@ public sealed class QuadTreeCreatorTest
     public void CreatorTest()
     {
         var constants = new Constants();
-        var player = new Player();
+        var player = new Player(constants);
         var planetFactoryCreator = new PlanetFactoryCreator(player, constants);
 
         var quadCreator = new StartNodeCreator(constants, player, planetFactoryCreator);
@@ -32,7 +32,7 @@ public sealed class QuadTreeCreatorTest
     public void PerformanceTest()
     {
         var constants = new Constants();
-        var player = new Player();
+        var player = new Player(constants);
         var planetFactoryCreator = new PlanetFactoryCreator(player, constants);
         var camera = new Camera();
         camera.IncreaseZoom();

@@ -13,7 +13,7 @@ namespace Editor.UnitTests
         public void VisiblePlanetsTest()
         {
             var constants = new Constants();
-            var player = new Player();
+            var player = new Player(constants);
             var camera = new CameraMock();
             camera.SetupTopFunc(()=> 5);
             camera.SetupBottomFunc(()=> 0);
@@ -40,7 +40,7 @@ namespace Editor.UnitTests
         public void VisiblePlanetsZeroTest()
         {
             var constants = new Constants();
-            var player = new Player();
+            var player = new Player(constants);
             var camera = new CameraMock();
             camera.SetupTopFunc(() => 5);
             camera.SetupBottomFunc(() => 0);
@@ -67,7 +67,7 @@ namespace Editor.UnitTests
         public void VisiblePlanetsFewTest()
         {
             var constants = new Constants();
-            var player = new Player();
+            var player = new Player(constants);
             var camera = new CameraMock();
             camera.SetupTopFunc(() => 5);
             camera.SetupBottomFunc(() => 0);
@@ -100,7 +100,7 @@ namespace Editor.UnitTests
         public void PlanetFrom4Sectors()
         {
             var constants = new Constants();
-            var player = new Player();
+            var player = new Player(constants);
             var camera = new CameraMock();
             camera.SetupTopFunc(() => 2);
             camera.SetupBottomFunc(() => -2);
@@ -139,7 +139,7 @@ namespace Editor.UnitTests
         public void PlanetFrom4SectorsPositiveOnly()
         {
             var constants = new Constants();
-            var player = new Player();
+            var player = new Player(constants);
             var camera = new CameraMock();
             camera.SetupTopFunc(() => 102);
             camera.SetupBottomFunc(() => 98);

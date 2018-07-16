@@ -14,7 +14,7 @@ namespace Editor.UnitTests
         public void GetVisiblePlanetsTest()
         {
             var constants = new Constants();
-            var player = new Player();
+            var player = new Player(constants);
             var planetFactory = new PlanetFactory(constants, new Random(0), new PlanetComparer(player, constants));
             var segmentCreator = new SegmentCreatorMock();
             

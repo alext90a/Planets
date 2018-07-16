@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts;
 using Boo.Lang;
+using JetBrains.Annotations;
 
 namespace Planets
 {
@@ -9,9 +10,9 @@ namespace Planets
         private int mX = 0;
         private int mY = 0;
         private List<IPlayerListener> mPlayerListeners = new List<IPlayerListener>();
-        public Player()
+        public Player([NotNull] IConstants constants)
         {
-            mScore = 5000;
+            mScore = constants.GetPlayerScore();
         }
 
 

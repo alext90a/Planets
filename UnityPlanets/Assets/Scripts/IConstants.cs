@@ -12,5 +12,6 @@
         int GetMaxPlanetScore();
         int GetMinPlanetScore();
         int GetPlanetsToVisualize();
+        int GetPlayerScore();
     }
 }
