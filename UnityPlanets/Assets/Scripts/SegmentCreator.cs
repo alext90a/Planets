@@ -81,7 +81,7 @@ namespace Assets.Scripts
                         var y = (i / mSectorsInRaw);
                         var x = (i - y * mSectorsInRaw);
                         var sector = new Sector(mConstants, x - mSectorsInRaw / 2, y - mSectorsInRaw / 2, planetFactory.CreatePlanetsForSector());
-                        mSectorStore[i] = sector;// mSectorCreator.CreateSector(x, y);
+                        mSectorStore[i] = sector;
                     }
                     are.Set();
                 });

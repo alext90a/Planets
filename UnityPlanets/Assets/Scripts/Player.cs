@@ -1,23 +1,24 @@
 ﻿using Assets.Scripts;
 using Boo.Lang;
 using JetBrains.Annotations;
+using Zenject;
 
 namespace Planets
 {
     public class Player : IPlayer
     {
-        private int mScore;
         private int mX = 0;
         private int mY = 0;
         private List<IPlayerListener> mPlayerListeners = new List<IPlayerListener>();
+        [Inject] [NotNull] private readonly IConstants mConstants;
+
         public Player([NotNull] IConstants constants)
         {
-            mScore = constants.GetPlayerScore();
         }
 
 
 
-        public int Score { get { return mScore; } }
+        public int Score { get { return mConstants.GetPlayerScore(); } }
         public void MoveLeft()
         {
             mX -= 1;
