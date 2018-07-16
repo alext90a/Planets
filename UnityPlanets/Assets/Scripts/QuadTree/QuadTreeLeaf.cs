@@ -96,6 +96,11 @@ namespace Assets.Scripts.QuadTree
             VisitNodes(nodeVisitor);
         }
 
+        public int[] GetPlanetsRawData()
+        {
+            return mPlanetRawData;
+        }
+
 
         private bool IsPlanetInCamera(int planetIndex, [NotNull]IAABBox cameraBox)
         {
@@ -150,7 +155,7 @@ namespace Assets.Scripts.QuadTree
             return posToInsert;
         }
 
-        private PlanetData GetPlanetData(int index)
+        public PlanetData GetPlanetData(int index)
         {
             var data = mPlanetRawData[index];
             var score = data / mConstants.GetCellsInSector();
@@ -160,7 +165,7 @@ namespace Assets.Scripts.QuadTree
             return new PlanetData(mBox.GetX() - mBox.GetWidth()/2 + posLocX, mBox.GetY() + mBox.GetHeight()/2 - posLocY, score);
         }
 
-        private int GetPlanetRating(int index)
+        public int GetPlanetRating(int index)
         {
             return mPlanetRawData[index] / mConstants.GetCellsInSector();
         }

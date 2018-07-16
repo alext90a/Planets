@@ -119,6 +119,7 @@
     <Compile Include="Assets\Scripts\UnitySectorManager.cs" />
     <Compile Include="Assets\Scripts\VisibleNodesCollector.cs" />
     <Compile Include="Assets\Scripts\VisiblePlanetsProvider.cs" />
+    <Compile Include="Assets\Scripts\VisualizationPlanetVisitor.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>E:/Projects/Planets/UnityPlanets/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

@@ -20,6 +20,7 @@ public class UnityQuadTreeManager : MonoBehaviour, IBordersChangeListener, IArra
     [NotNull] [Inject] private readonly IArrayBackgroundWorker mBackgroundWorker;
     [NotNull] [Inject] private readonly List<IZoomBlockerListener> mZoomBlockerListeners = new List<IZoomBlockerListener>();
     [NotNull] [Inject] private readonly IPlayer mPlayer;
+    [NotNull] [Inject] private readonly IConstants mConstants;
     public Text mLoadingProgressText;
     public GameObject mTextHolder;
     public Text mLoadingThreads;
@@ -40,8 +41,11 @@ public class UnityQuadTreeManager : MonoBehaviour, IBordersChangeListener, IArra
     public void NewBorders(int top, int bottom, int left, int right)
     {
         mPlanetData.Clear();
-        mRootNode.GetVisiblePlanets(mCamera, mPlanetData);
-        mUnityPlanetVisualizer.Visualize(mPlanetData);
+        //mRootNode.GetVisiblePlanets(mCamera, mPlanetData);
+        //mUnityPlanetVisualizer.Visualize(mPlanetData);
+        var visualizationVisitor = new VisualizationPlanetVisitor(mPlayer, mConstants, mCamera);
+        mRootNode.VisitVisibleNodes(mCamera, visualizationVisitor);
+        mUnityPlanetVisualizer.Visualize(visualizationVisitor.GetVisiblePlanets());
     }
 
     public void OnProgressChange(int progress)
