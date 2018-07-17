@@ -355,7 +355,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: -50
 --- !u!222 &159570760
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -677,7 +677,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: -50
 --- !u!222 &338242983
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1442,7 +1442,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 50
 --- !u!222 &477194034
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2312,7 +2312,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 0
+  m_Text: 5000
 --- !u!222 &997007947
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4025,7 +4025,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 50
 --- !u!222 &1735670630
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4497,12 +4497,12 @@ GameObject:
   - component: {fileID: 1827911900}
   - component: {fileID: 1827911899}
   m_Layer: 5
-  m_Name: ExceptionTex
+  m_Name: ExceptionText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1827911899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4535,7 +4535,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: SomeException
 --- !u!222 &1827911900
 CanvasRenderer:
   m_ObjectHideFlags: 0
