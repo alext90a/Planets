@@ -11,8 +11,6 @@ namespace QuadTree
         [NotNull]
         private readonly IConstants mConstants;
         [NotNull]
-        private readonly IPlayer mPlayer;
-        [NotNull]
         private static WaitHandle[] waitHandles;
         [NotNull]
         private static Exception[] exceptions;
@@ -20,10 +18,9 @@ namespace QuadTree
         private IQuadTreeNode[] mLoadingNodes;
 
         
-        public StartNodeCreator([NotNull] IConstants constants, [NotNull] IPlayer player)
+        public StartNodeCreator([NotNull] IConstants constants)
         {
             mConstants = constants;
-            mPlayer = player;
         }
 
         public IQuadTreeNode Create()
@@ -140,7 +137,6 @@ namespace QuadTree
             var sectorStore = new List<IQuadTreeNode>(segmentsInSector);
             var segmentHalfSize = segmentSideSize / 2f;
             var sectorHalfSize = mConstants.GetSectorSideSize() / 2f;
-            var planetDataProvider = new PlanetFactory(mConstants, new Random(), new PlanetComparer(mPlayer, mConstants));
             for (int i = 0; i < segmentsInSector; ++i)
             {
                 float y = i / segmentsRaw;
