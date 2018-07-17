@@ -55,6 +55,8 @@ public class UnityQuadTreeManager : MonoBehaviour, IBordersChangeListener, IArra
     {
         if (type == LogType.Exception)
         {
+            // ReSharper disable once PossibleNullReferenceException
+            mError.gameObject.SetActive(true);
             mError.text = condition + stackTrace;
         }
     }
@@ -78,14 +80,6 @@ public class UnityQuadTreeManager : MonoBehaviour, IBordersChangeListener, IArra
     {
         mTextHolder.SetActive(false);
         UnblockZoom();
-    }
-
-    public void OnException(string message)
-    {
-
-        mError.text = message;
-        mTextHolder.SetActive(true);
-
     }
 
     public void AddListener(IZoomBlockerListener listener)

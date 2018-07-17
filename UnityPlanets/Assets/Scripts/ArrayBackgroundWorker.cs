@@ -10,14 +10,14 @@ using QuadTree;
 public sealed class ArrayBackgroundWorker : IArrayBackgroundWorker
 {
     private BackgroundWorker[] mBackgroundWorkers;
-    private string mError;
+    private string mErrorMessage;
     private int mProgress = 0;
     [NotNull]
     private readonly List<IArrayBackgroundWorkerListener> mListeners = new List<IArrayBackgroundWorkerListener>();
         
     public void Run(IReadOnlyList<QuadTreeLeaf> loadingNodes, IPlanetFactoryCreator planetFactoryCreator)
     {
-        mError = null;
+        mErrorMessage = null;
         var processorCount = Environment.ProcessorCount;
         var leafsPerProc = loadingNodes.Count / processorCount;
         mBackgroundWorkers = new BackgroundWorker[processorCount];
@@ -48,7 +48,7 @@ public sealed class ArrayBackgroundWorker : IArrayBackgroundWorker
 
                     worker.ReportProgress((int)floatData);
                 }
-
+                
 
             };
             worker.WorkerReportsProgress = true;
@@ -63,7 +63,7 @@ public sealed class ArrayBackgroundWorker : IArrayBackgroundWorker
     {
         if (runWorkerCompletedEventArgs.Error != null)
         {
-            mError = runWorkerCompletedEventArgs.Error.Message;
+            mErrorMessage = runWorkerCompletedEventArgs.Error.Message;
         }
         foreach (var worker in mBackgroundWorkers)
         {
@@ -74,9 +74,9 @@ public sealed class ArrayBackgroundWorker : IArrayBackgroundWorker
         }
         foreach (var curListener in mListeners)
         {
-            if (mError != null)
+            if (mErrorMessage != null)
             {
-                curListener.OnException(mError);
+                throw new Exception(mErrorMessage);
             }
             else
             {

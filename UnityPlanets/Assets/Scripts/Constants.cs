@@ -4,21 +4,16 @@ using UnityEngine;
 public class Constants : MonoBehaviour, IConstants
 {
     [SerializeField]
-    private int mMinCameraSize = 5;
-    [SerializeField]
-    private int mMaxCameraSize = 10000;
-    [SerializeField]
-    private int mSectorSideSize = 100;
-    [SerializeField][Range(0f, 1f)]
-    private float mPlanetsPercent = 0.3f;
-    [SerializeField]
-    private int mMaxPlanetScore = 10000;
-    [SerializeField]
-    private int mMinPlanetScore = 0;
-    [SerializeField]
-    private int mPlanetsToVisualize = 20;
-    [SerializeField]
     private int mPlayerScore = 5000;
+
+    private int mMinCameraSize = 5;
+    private int mMaxCameraSize = 10000;
+    private int mSectorSideSize = 100;
+    private float mPlanetsPercent = 0.3f;
+    private int mMaxPlanetScore = 10000;
+    private int mMinPlanetScore = 0;
+    private int mPlanetsToVisualize = 20;
+    
 
     private readonly int mCellsInSector;
     private readonly int mSectorsInSegment;
