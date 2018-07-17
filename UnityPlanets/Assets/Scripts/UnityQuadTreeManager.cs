@@ -12,13 +12,13 @@ public class UnityQuadTreeManager : MonoBehaviour, IBordersChangeListener, IArra
     [NotNull][Inject]
     private readonly ICamera mCamera;
     [NotNull][Inject]
-    private readonly StartNodeCreator mStartNodeCreator;
+    private readonly IStartNodeCreator mStartNodeCreator;
     [NotNull]
     private IQuadTreeNode mRootNode;
     [NotNull][Inject]
     private readonly IUnityPlanetVisualizer mUnityPlanetVisualizer;
     [NotNull] [Inject]
-    private readonly StartUpNodeInitializer mStartupNodeInitializer;
+    private readonly IStartUpNodeInitializer mStartupNodeInitializer;
     [NotNull] [Inject]
     private readonly IArrayBackgroundWorker mBackgroundWorker;
     [NotNull] [Inject]

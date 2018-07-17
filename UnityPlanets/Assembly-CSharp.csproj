@@ -94,6 +94,7 @@
     <Compile Include="Assets\Scripts\QuadTree\INodeVisitor.cs" />
     <Compile Include="Assets\Scripts\QuadTree\IQuadTreeMerger.cs" />
     <Compile Include="Assets\Scripts\QuadTree\IQuadTreeNode.cs" />
+    <Compile Include="Assets\Scripts\QuadTree\IStartNodeCreator.cs" />
     <Compile Include="Assets\Scripts\QuadTree\QuadTreeLeaf.cs" />
     <Compile Include="Assets\Scripts\QuadTree\QuadTreeNode.cs" />
     <Compile Include="Assets\Scripts\QuadTree\QuadTreeNodeMerger.cs" />

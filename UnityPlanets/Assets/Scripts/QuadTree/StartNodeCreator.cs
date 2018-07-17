@@ -1,14 +1,12 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Threading;
-using Assets.Scripts;
 using JetBrains.Annotations;
 using Planets;
 
 namespace QuadTree
 {
-    public sealed class StartNodeCreator
+    public sealed class StartNodeCreator : IStartNodeCreator
     {
         [NotNull]
         private readonly IConstants mConstants;
@@ -28,7 +26,6 @@ namespace QuadTree
             mPlayer = player;
         }
 
-        [NotNull]
         public IQuadTreeNode Create()
         {
             var levels = 0;
