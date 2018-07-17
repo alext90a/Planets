@@ -34,15 +34,12 @@ public class UnityQuadTreeManager : MonoBehaviour, IBordersChangeListener, IArra
     [NotNull]
     public Text mLoadingThreads;
     [NotNull]
-    public Text mError;
-    [NotNull]
     private List<PlanetData> mPlanetData;
 
     // Use this for initialization
     void Start()
     {
-        Application.logMessageReceived += ApplicationOnLogMessageReceived;
-        mPlanetData = new List<PlanetData>(mConstants.GetMinCameraSize() * mConstants.GetMinCameraSize());
+        mPlanetData = new List<PlanetData>(mConstants.GetPlanetsToVisualize());
         BlockZoom();
         mCamera.AddBorderChangeListener(this);
         mRootNode = mStartNodeCreator.Create();
@@ -51,21 +48,9 @@ public class UnityQuadTreeManager : MonoBehaviour, IBordersChangeListener, IArra
         mPlayer.MoveRight();
     }
 
-    private void ApplicationOnLogMessageReceived(string condition, string stackTrace, LogType type)
-    {
-        if (type == LogType.Exception)
-        {
-            // ReSharper disable once PossibleNullReferenceException
-            mError.gameObject.SetActive(true);
-            mError.text = condition + stackTrace;
-        }
-    }
-
     public void NewBorders(int top, int bottom, int left, int right)
     {
         mPlanetData.Clear();
-        //mRootNode.GetVisiblePlanets(mCamera, mPlanetData);
-        //mUnityPlanetVisualizer.Visualize(mPlanetData);
         var visualizationVisitor = new VisualizationPlanetVisitor(mPlayer, mConstants, mCamera);
         mRootNode.VisitVisibleNodes(mCamera, visualizationVisitor);
         mUnityPlanetVisualizer.Visualize(visualizationVisitor.GetVisiblePlanets());

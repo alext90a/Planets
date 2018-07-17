@@ -58,7 +58,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Editor\Mocks\ConstantsMock.cs" />
     <Compile Include="Assets\Editor\UnitTests\QuadTreeInitTest.cs" />
     <None Include="Assets\Editor\Moq\Source.txt" />
     <None Include="Assets\Editor\Moq\License.txt" />

@@ -58,6 +58,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\ExceptionController.cs" />
     <Compile Include="Assets\ExitController.cs" />
     <Compile Include="Assets\PlayerMoveController.cs" />
     <Compile Include="Assets\Scripts\ArrayBackgroundWorker.cs" />
