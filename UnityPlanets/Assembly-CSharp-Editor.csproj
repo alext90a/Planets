@@ -59,8 +59,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\Mocks\ConstantsMock.cs" />
-    <Compile Include="Assets\Editor\Mocks\PlayerMock.cs" />
     <Compile Include="Assets\Editor\UnitTests\QuadTreeInitTest.cs" />
+    <None Include="Assets\Editor\Moq\Source.txt" />
+    <None Include="Assets\Editor\Moq\License.txt" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>E:/Projects/Planets/UnityPlanets/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
@@ -327,6 +328,12 @@
     </Reference>
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/15.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>E:/Projects/Planets/UnityPlanets/Assets/Editor/Moq/Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>E:/Projects/Planets/UnityPlanets/Assets/Editor/Moq/Moq.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity 2018.1.0b13/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
