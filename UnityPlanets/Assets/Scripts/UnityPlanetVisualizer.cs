@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 using UnityEngine;
 using Zenject;
 
-public class UnityPlanetVisualizer : MonoBehaviour, IUnityPlanetVisualizer
+public class UnityPlanetVisualizer : MonoBehaviour, IUnityPlanetVisualizer, IBordersChangeListener
 {
     [Inject][NotNull]
     private readonly IConstants mConstants;
@@ -15,9 +15,14 @@ public class UnityPlanetVisualizer : MonoBehaviour, IUnityPlanetVisualizer
     private readonly UnityPlanetDataFactory mPlanetDataFactory;
     [NotNull]
     private List<IUnityPlanetData> mPlanets;
-    
+    [NotNull]
+    private readonly IRootNodeProvider mRootNodeProvider;
+    [NotNull]
+    private List<PlanetData> mPlanetData;
     private void Awake()
     {
+        mPlanetData = new List<PlanetData>(mConstants.GetPlanetsToVisualize());
+        mCamera.AddBorderChangeListener(this);
         mPlanets = new List<IUnityPlanetData>(mConstants.GetPlanetsToVisualize());
         if (transform != null)
         {
@@ -59,5 +64,13 @@ public class UnityPlanetVisualizer : MonoBehaviour, IUnityPlanetVisualizer
             // ReSharper disable once PossibleNullReferenceException
             mPlanets[i].Activate(planets[i]);
         }
+    }
+
+    public void NewBorders(int top, int bottom, int left, int right)
+    {
+        mPlanetData.Clear();
+        var visualizationVisitor = new VisualizationPlanetVisitor(mPlayer, mConstants, mCamera);
+        mRootNodeProvider.GetRootNote().VisitVisibleNodes(mCamera, visualizationVisitor);
+        Visualize(visualizationVisitor.GetVisiblePlanets());
     }
 }

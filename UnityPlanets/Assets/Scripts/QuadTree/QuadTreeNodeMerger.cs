@@ -5,6 +5,10 @@ namespace QuadTree
 {
     public class QuadTreeNodeMerger : IQuadTreeNodeMerger
     {
+        public QuadTreeNodeMerger()
+        {
+            
+        }
         public IQuadTreeNode Merge(List<IQuadTreeNode> mergedNodes)
         {
             while (mergedNodes.Count != 1)
