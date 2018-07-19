@@ -23,5 +23,7 @@ public class ProjectInstaller : MonoInstaller<ProjectInstaller>
         Container.Bind<IArrayBackgroundWorker>().To<ArrayBackgroundWorker>().AsSingle();
         Container.Bind<IQuadTreeNodeMerger>().To<QuadTreeNodeMerger>().AsTransient();
         Container.Bind<IThreadQuadTreeNodeCreatorFactory>().To<ThreadQuadTreeNodeCreatorFactory>().AsSingle();
+        Container.Bind<INodeVisitor>().To<VisibleNodesCollector>().AsSingle();
+        Container.Bind<IVisiblePlanetDataProvider>().To<VisiblePlanetDataProvider>().AsSingle();
     }
 }

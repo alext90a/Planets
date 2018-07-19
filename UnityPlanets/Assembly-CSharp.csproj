@@ -83,7 +83,7 @@
     <Compile Include="Assets\Scripts\IStartUpNodeInitializer.cs" />
     <Compile Include="Assets\Scripts\IUnityPlanetData.cs" />
     <Compile Include="Assets\Scripts\IUnityPlayer.cs" />
-    <Compile Include="Assets\Scripts\IUnityVisualizer.cs" />
+    <Compile Include="Assets\Scripts\IVisiblePlanetDataProvider.cs" />
     <Compile Include="Assets\Scripts\IZoomBlocker.cs" />
     <Compile Include="Assets\Scripts\IZoomBlockerListener.cs" />
     <Compile Include="Assets\Scripts\PlanetComparer.cs" />
@@ -115,7 +115,7 @@
     <Compile Include="Assets\Scripts\UnityPlayer.cs" />
     <Compile Include="Assets\Scripts\UnityQuadTreeManager.cs" />
     <Compile Include="Assets\Scripts\VisibleNodesCollector.cs" />
-    <Compile Include="Assets\Scripts\VisualizationPlanetVisitor.cs" />
+    <Compile Include="Assets\Scripts\VisiblePlanetDataProvider.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>E:/Projects/Planets/UnityPlanets/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

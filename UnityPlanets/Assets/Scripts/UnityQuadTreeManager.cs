@@ -13,8 +13,6 @@ public class UnityQuadTreeManager : MonoBehaviour, IBordersChangeListener, IArra
     private readonly IStartNodeCreator mStartNodeCreator;
     [NotNull]
     private IQuadTreeNode mRootNode;
-    [NotNull][Inject]
-    private readonly IUnityPlanetVisualizer mUnityPlanetVisualizer;
     [NotNull] [Inject]
     private readonly IStartUpNodeInitializer mStartupNodeInitializer;
     [NotNull] [Inject]
@@ -25,7 +23,6 @@ public class UnityQuadTreeManager : MonoBehaviour, IBordersChangeListener, IArra
     private readonly IPlayer mPlayer;
     [NotNull] [Inject]
     private readonly IConstants mConstants;
-    
     
 
     // Use this for initialization

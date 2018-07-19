@@ -17,7 +17,11 @@ namespace Assets.Scripts
             mVisibleLeaves.Add(visitedLeaf);
         }
 
-        [NotNull]
+        public void Clear()
+        {
+            mVisibleLeaves.Clear();
+        }
+
         public IReadOnlyList<QuadTreeLeaf> GetVisibleLeaves()
         {
             return mVisibleLeaves;

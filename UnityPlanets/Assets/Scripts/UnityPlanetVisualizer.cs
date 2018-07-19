@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 using UnityEngine;
 using Zenject;
 
-public class UnityPlanetVisualizer : MonoBehaviour, IUnityPlanetVisualizer, IBordersChangeListener
+public class UnityPlanetVisualizer : MonoBehaviour, IBordersChangeListener
 {
     [Inject][NotNull]
     private readonly IConstants mConstants;
@@ -17,11 +17,12 @@ public class UnityPlanetVisualizer : MonoBehaviour, IUnityPlanetVisualizer, IBor
     private List<IUnityPlanetData> mPlanets;
     [NotNull]
     private readonly IRootNodeProvider mRootNodeProvider;
-    [NotNull]
-    private List<PlanetData> mPlanetData;
+
+    [Inject][NotNull]
+    private IVisiblePlanetDataProvider mVisiblePlanetDataProvider;
+    
     private void Awake()
     {
-        mPlanetData = new List<PlanetData>(mConstants.GetPlanetsToVisualize());
         mCamera.AddBorderChangeListener(this);
         mPlanets = new List<IUnityPlanetData>(mConstants.GetPlanetsToVisualize());
         if (transform != null)
@@ -51,7 +52,7 @@ public class UnityPlanetVisualizer : MonoBehaviour, IUnityPlanetVisualizer, IBor
         }
     }
 
-    public void Visualize(List<PlanetData> planets)
+    private void Visualize([NotNull]IReadOnlyList<PlanetData> planets)
     {
         for (int i = 0; i < mPlanets.Count; ++i)
         {
@@ -68,9 +69,6 @@ public class UnityPlanetVisualizer : MonoBehaviour, IUnityPlanetVisualizer, IBor
 
     public void NewBorders(int top, int bottom, int left, int right)
     {
-        mPlanetData.Clear();
-        var visualizationVisitor = new VisualizationPlanetVisitor(mPlayer, mConstants, mCamera);
-        mRootNodeProvider.GetRootNote().VisitVisibleNodes(mCamera, visualizationVisitor);
-        Visualize(visualizationVisitor.GetVisiblePlanets());
+        Visualize(mVisiblePlanetDataProvider.GetVisiblePlanets(mCamera));
     }
 }
